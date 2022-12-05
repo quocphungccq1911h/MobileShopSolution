@@ -11,6 +11,7 @@ namespace MobileShop.Data
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            // Config use Fluent API
             modelBuilder.ApplyConfiguration(new AppConfigConfiguration());
             modelBuilder.ApplyConfiguration(new ProductConfiguration());
             modelBuilder.ApplyConfiguration(new ProductInCategoryConfiguration());
