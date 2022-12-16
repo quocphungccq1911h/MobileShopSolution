@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using MobileShop.Data.Configurations;
 using MobileShop.Data.Entities;
+using MobileShop.Data.Extensions;
 
 namespace MobileShop.Data
 {
@@ -11,6 +12,7 @@ namespace MobileShop.Data
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            // Config use Fluent API
             modelBuilder.ApplyConfiguration(new AppConfigConfiguration());
             modelBuilder.ApplyConfiguration(new ProductConfiguration());
             modelBuilder.ApplyConfiguration(new ProductInCategoryConfiguration());
@@ -24,6 +26,8 @@ namespace MobileShop.Data
             modelBuilder.ApplyConfiguration(new ProductTranslationConfiguration());
             modelBuilder.ApplyConfiguration(new PromotionConfiguration());
             modelBuilder.ApplyConfiguration(new TransactionConfiguration());
+            // Data seeding
+            modelBuilder.Seed();
             //base.OnModelCreating(modelBuilder);
         }
 
