@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using MobileShop.Data.Configurations;
 using MobileShop.Data.Entities;
+using MobileShop.Data.Extensions;
 
 namespace MobileShop.Data
 {
@@ -25,6 +26,8 @@ namespace MobileShop.Data
             modelBuilder.ApplyConfiguration(new ProductTranslationConfiguration());
             modelBuilder.ApplyConfiguration(new PromotionConfiguration());
             modelBuilder.ApplyConfiguration(new TransactionConfiguration());
+            // Data seeding
+            modelBuilder.Seed();
             //base.OnModelCreating(modelBuilder);
         }
 
