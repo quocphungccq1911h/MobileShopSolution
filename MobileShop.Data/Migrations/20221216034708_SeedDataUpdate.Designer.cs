@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MobileShop.Data;
 
 namespace MobileShop.Data.Migrations
 {
     [DbContext(typeof(MobileShopDbContext))]
-    partial class MobileShopDbContextModelSnapshot : ModelSnapshot
+    [Migration("20221216034708_SeedDataUpdate")]
+    partial class SeedDataUpdate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -96,7 +98,7 @@ namespace MobileShop.Data.Migrations
                     b.Property<int?>("ParentId")
                         .HasColumnType("int");
 
-                    b.Property<int>("SortOrder")
+                    b.Property<int>("SordOrder")
                         .HasColumnType("int");
 
                     b.Property<int>("Status")
@@ -113,14 +115,14 @@ namespace MobileShop.Data.Migrations
                         {
                             Id = 1,
                             IsShowHome = true,
-                            SortOrder = 1,
+                            SordOrder = 1,
                             Status = 1
                         },
                         new
                         {
                             Id = 2,
                             IsShowHome = true,
-                            SortOrder = 2,
+                            SordOrder = 2,
                             Status = 1
                         });
                 });
@@ -294,7 +296,7 @@ namespace MobileShop.Data.Migrations
                     b.Property<DateTime>("OrderDate")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2022, 12, 16, 10, 49, 7, 556, DateTimeKind.Local).AddTicks(8840));
+                        .HasDefaultValue(new DateTime(2022, 12, 16, 10, 47, 8, 72, DateTimeKind.Local).AddTicks(8985));
 
                     b.Property<string>("ShipAddress")
                         .IsRequired()
@@ -385,7 +387,7 @@ namespace MobileShop.Data.Migrations
                         new
                         {
                             Id = 1,
-                            CreateDate = new DateTime(2022, 12, 16, 10, 49, 7, 564, DateTimeKind.Local).AddTicks(4778),
+                            CreateDate = new DateTime(2022, 12, 16, 10, 47, 8, 81, DateTimeKind.Local).AddTicks(6131),
                             OriginalPrice = 15000000m,
                             Price = 20000000m,
                             Stock = 0,

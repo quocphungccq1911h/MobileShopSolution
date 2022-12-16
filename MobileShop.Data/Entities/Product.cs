@@ -11,7 +11,6 @@ namespace MobileShop.Data.Entities
         public int Stock { set; get; }
         public int ViewCount { set; get; }
         public DateTime CreateDate { set; get; }
-        public string SeoAlias { set; get; }
         public List<ProductInCategory> ProductInCategories { get; set; }
         public List<OrderDetail> OrderDetails { get; set; }
         public List<Cart> Carts { get; set; }

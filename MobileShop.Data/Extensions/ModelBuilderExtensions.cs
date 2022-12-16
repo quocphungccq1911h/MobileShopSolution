@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using MobileShop.Data.Entities;
 using MobileShop.Data.Enum;
+using System;
 
 namespace MobileShop.Data.Extensions
 {
@@ -23,7 +24,7 @@ namespace MobileShop.Data.Extensions
                     Id = 1,
                     IsShowHome = true,
                     ParentId = null,
-                    SordOrder = 1,
+                    SortOrder = 1,
                     Status = Status.Active
                 },
                 new Category()
@@ -31,7 +32,7 @@ namespace MobileShop.Data.Extensions
                     Id = 2,
                     IsShowHome = true,
                     ParentId = null,
-                    SordOrder = 2,
+                    SortOrder = 2,
                     Status = Status.Active
                 });
             modelBuilder.Entity<CategoryTranslation>().HasData(
@@ -40,6 +41,42 @@ namespace MobileShop.Data.Extensions
                   new CategoryTranslation() { Id = 3, CategoryId = 2, Name = "Điện thoại", LanguageId = "vi-VN", SeoAlias = "dien-thoai", SeoDescription = "Điện thoại thông minh", SeoTitle = "Điện thoại thông minh" },
                   new CategoryTranslation() { Id = 4, CategoryId = 2, Name = "Cellphone", LanguageId = "en-US", SeoAlias = "cell-phone", SeoDescription = "The cellphone", SeoTitle = "The cellphone" }
                     );
+            modelBuilder.Entity<Product>().HasData(
+                new Product()
+                {
+                    Id = 1,
+                    CreateDate = DateTime.Now,
+                    OriginalPrice = 15000000,
+                    Price = 20000000,
+                    Stock = 0,
+                    ViewCount = 0,
+                });
+            modelBuilder.Entity<ProductTranslation>().HasData(
+                new ProductTranslation()
+                {
+                    Id = 1,
+                    ProductId = 1,
+                    Name = "Máy tính bảng Huawei M3",
+                    LanguageId = "vi-VN",
+                    SeoAlias = "may-tinh-bang-huawei-m3",
+                    SeoTitle = "Máy tính bảng Tablet Huawei M3",
+                    Description = "Máy tính bảng Tablet Huawei M3",
+                    Details = "Máy tính bảng Tablet Huawei M3"
+                },
+                new ProductTranslation()
+                {
+                    Id = 2,
+                    ProductId = 1,
+                    Name = "Tablet Huawei M3",
+                    LanguageId = "en-US",
+                    SeoAlias = "tablet-huawei-m3",
+                    SeoTitle = "Tablet Huawei M3",
+                    Description = "Tablet Huawei M3",
+                    Details = "Tablet Huawei M3"
+                });
+            modelBuilder.Entity<ProductInCategory>().HasData(
+                new ProductInCategory() { ProductId = 1, CategoryId = 1 }
+                );
         }
     }
 }
