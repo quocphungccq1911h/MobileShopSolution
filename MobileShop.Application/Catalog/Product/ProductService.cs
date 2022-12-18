@@ -7,16 +7,28 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Http;
+using System.Net.Http.Headers;
+using System.IO;
+using MobileShop.Application.Common;
 
 namespace MobileShop.Application.Catalog.Product
 {
     class ProductService : IProductService
     {
         private readonly MobileShopDbContext _context;
-        public ProductService(MobileShopDbContext context)
+        private readonly IStorageService _storageService;
+        public ProductService(MobileShopDbContext context, IStorageService storageService)
         {
             _context = context;
+            _storageService = storageService;
         }
+
+        public Task<int> AddImages(int productId, List<IFormFile> files)
+        {
+            throw new NotImplementedException();
+        }
+
         public async Task AddViewCount(int productId)
         {
             var product = await _context.Products.FindAsync(productId);
@@ -47,6 +59,22 @@ namespace MobileShop.Application.Catalog.Product
                     }
                 }
             };
+            // Save Image
+            if(request.ThumbnailImage != null)
+            {
+                product.ProductImages = new List<Data.Entities.ProductImage>()
+                {
+                    new Data.Entities.ProductImage()
+                    {
+                        Caption = "Thumbnail Image",
+                        DateCreated = DateTime.Now,
+                        FileSize = (int)request.ThumbnailImage.Length,
+                        ImagePath = await this.SaveFile(request.ThumbnailImage),
+                        IsDefault = true,
+                        SortOrder = 1
+                    }
+                };
+            }
             _context.Products.Add(product);
             return await _context.SaveChangesAsync();
         }
@@ -55,6 +83,11 @@ namespace MobileShop.Application.Catalog.Product
         {
             var product = await _context.Products.FindAsync(productId);
             if (product == null) throw new MobileShopException($"Cannot find product: {productId}");
+            var images = _context.ProductImages.Where(x => x.ProductId == productId);
+            foreach(var image in images)
+            {
+                await _storageService.DeleteFileAsync(image.ImagePath);
+            }
             _context.Products.Remove(product);
             return await _context.SaveChangesAsync();
         }
@@ -107,6 +140,16 @@ namespace MobileShop.Application.Catalog.Product
             return pageResult;
         }
 
+        public Task<List<ProductImageVM>> GetListImage(int productId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<int> RemoveImage(int imageId)
+        {
+            throw new NotImplementedException();
+        }
+
         public async Task<int> Update(ProductUpdateRequest request)
         {
             var product = await _context.Products.FindAsync(request.Id);
@@ -118,7 +161,23 @@ namespace MobileShop.Application.Catalog.Product
             productTranslations.SeoTitle = request.SeoTitle;
             productTranslations.Details = request.Details;
             productTranslations.Description = request.Description;
+            // Save Image
+            if(request.Thumbnail != null)
+            {
+                var thumbnailImage = await _context.ProductImages.FirstOrDefaultAsync(x => x.ProductId == request.Id && x.IsDefault);
+                if(thumbnailImage != null)
+                {
+                    thumbnailImage.FileSize = (int)request.Thumbnail.Length;
+                    thumbnailImage.ImagePath = await this.SaveFile(request.Thumbnail);
+                    _context.ProductImages.Update(thumbnailImage);
+                }
+            }
             return await _context.SaveChangesAsync();
+        }
+
+        public Task<int> UpdateImage(int imageId, string caption, bool isDefault)
+        {
+            throw new NotImplementedException();
         }
 
         public async Task<bool> UpdatePrice(int productId, decimal newPrice)
@@ -135,6 +194,13 @@ namespace MobileShop.Application.Catalog.Product
             if (product == null) throw new MobileShopException($"Cannot find a product with if: {productId}");
             product.Stock += addedQuantity;
             return await _context.SaveChangesAsync() > 0;
+        }
+        private async Task<string> SaveFile(IFormFile file)
+        {
+            var originalFileName = ContentDispositionHeaderValue.Parse(file.ContentDisposition).FileName.Trim('"');
+            var fileName = $"{Guid.NewGuid()}{Path.GetExtension(originalFileName)}";
+            await _storageService.SaveFileAsync(file.OpenReadStream(), fileName);
+            return fileName;
         }
     }
 }

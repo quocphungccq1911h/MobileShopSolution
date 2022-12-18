@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.AspNetCore.Http;
+using System.ComponentModel.DataAnnotations;
 
 namespace MobileShop.ViewModels.Catalog.Products
 {
@@ -16,5 +17,6 @@ namespace MobileShop.ViewModels.Catalog.Products
         public string SeoAlias { get; set; }
         public string LanguageId { set; get; }
         public bool? IsFeatured { get; set; }
+        public IFormFile ThumbnailImage { get; set; }
     }
 }

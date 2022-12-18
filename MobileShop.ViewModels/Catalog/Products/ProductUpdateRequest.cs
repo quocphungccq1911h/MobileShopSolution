@@ -1,4 +1,6 @@
-﻿namespace MobileShop.ViewModels.Catalog.Products
+﻿using Microsoft.AspNetCore.Http;
+
+namespace MobileShop.ViewModels.Catalog.Products
 {
     public class ProductUpdateRequest
     {
@@ -11,6 +13,7 @@
         public string SeoAlias { get; set; }
         public string LanguageId { set; get; }
         public bool? IsFeatured { get; set; }
+        public IFormFile Thumbnail { get; set; }
 
     }
 }
