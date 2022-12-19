@@ -20,5 +20,6 @@ namespace MobileShop.Application.System.Product
         Task<int> RemoveImage(int imageId);
         Task<int> UpdateImage(int imageId, string caption, bool isDefault);
         Task<List<ProductImageVM>> GetListImage(int productId);
+        Task<ProductVm> GetProductById(int productId, string languageId);
     }
 }

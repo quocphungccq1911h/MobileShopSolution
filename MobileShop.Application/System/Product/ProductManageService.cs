@@ -14,7 +14,7 @@ using MobileShop.Application.Common;
 
 namespace MobileShop.Application.System.Product
 {
-    class ProductManageService : IProductManageService
+    public class ProductManageService : IProductManageService
     {
         private readonly MobileShopDbContext _context;
         private readonly IStorageService _storageService;
@@ -143,6 +143,31 @@ namespace MobileShop.Application.System.Product
         public Task<List<ProductImageVM>> GetListImage(int productId)
         {
             throw new NotImplementedException();
+        }
+
+        public async Task<ProductVm> GetProductById(int productId, string languageId)
+        {
+            var product = await _context.Products.FindAsync(productId);
+            var productTranslation = await _context.ProductTranslations.FirstOrDefaultAsync(x => x.ProductId == productId && x.LanguageId == languageId);
+            if (product == null) throw new MobileShopException($"Cannot find product with productId: {productId}");
+            if (productTranslation == null) throw new Exception($"Cannot find product translation with productId: {productId} and languageId: {languageId}");
+            var productVM = new ProductVm()
+            {
+                Id = product.Id,
+                Price = product.Price,
+                OriginalPrice = product.OriginalPrice,
+                Stock = product.Stock,
+                ViewCount = product.ViewCount,
+                DateCreated = product.CreateDate,
+                Name = productTranslation.Name,
+                Description = productTranslation.Description,
+                Details = productTranslation.Details,
+                SeoDescription = productTranslation.SeoDescription,
+                SeoTitle = productTranslation.SeoTitle,
+                SeoAlias = productTranslation.SeoAlias,
+                LanguageId = productTranslation.LanguageId
+            };
+            return productVM;
         }
 
         public Task<int> RemoveImage(int imageId)
