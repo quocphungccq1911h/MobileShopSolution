@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -8,7 +9,9 @@ using Microsoft.OpenApi.Models;
 using MobileShop.Application.Catalog.Product;
 using MobileShop.Application.Common;
 using MobileShop.Application.System.Product;
+using MobileShop.Application.System.Users;
 using MobileShop.Data;
+using MobileShop.Data.Entities;
 using MobileShop.Utilities.Constants;
 
 namespace MobileShop.WebAPI
@@ -26,11 +29,19 @@ namespace MobileShop.WebAPI
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<MobileShopDbContext>(option => option.UseSqlServer(Configuration.GetConnectionString(SystemConstans.MainConnectionString)));
+
+            services.AddIdentity<AppUser, AppRole>()
+                .AddEntityFrameworkStores<MobileShopDbContext>()
+                .AddDefaultTokenProviders();
             // Declare DI
 
             services.AddTransient<IStorageService, FileStorageService>();
             services.AddTransient<IProductService, ProductService>();
             services.AddTransient<IProductManageService, ProductManageService>();
+            services.AddTransient<UserManager<AppUser>, UserManager<AppUser>>();
+            services.AddTransient<SignInManager<AppUser>, SignInManager<AppUser>>();
+            services.AddTransient<RoleManager<AppRole>, RoleManager<AppRole>>();
+            services.AddTransient<IUserService,UserService>();
 
             services.AddControllers();
             services.AddSwaggerGen(c => c.SwaggerDoc("v1", new OpenApiInfo { Title = "WebApi MobileShop", Version = "v1" }));

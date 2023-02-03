@@ -20,9 +20,9 @@ namespace MobileShop.Application.Catalog.Product
             var query = from p in _context.Products
                         join pt in _context.ProductTranslations on p.Id equals pt.ProductId
                         join pc in _context.ProductInCategories on p.Id equals pc.ProductId
-                        join c in _context.Categories on pc.CategoryId equals c.Id
+                        //join c in _context.Categories on pc.CategoryId equals c.Id
                         where pt.LanguageId == languageId
-                        select new { p, pt, pc, c };
+                        select new { p, pt, pc };
             var data = await query.Select(x => new ProductVm()
             {
                 Id = x.p.Id,
@@ -38,7 +38,7 @@ namespace MobileShop.Application.Catalog.Product
                 SeoTitle = x.pt.SeoTitle,
                 SeoAlias = x.pt.SeoAlias,
                 LanguageId = x.pt.LanguageId,
-                Categories = x.c.ProductInCategories.Where(d => d.CategoryId == x.c.Id).Select(e => e.CategoryId).ToList(),
+                //Categories = x.c.ProductInCategories.Where(d => d.CategoryId == x.c.Id).Select(e => e.CategoryId).ToList(),
             }).ToListAsync();
             return data;
         }
@@ -48,9 +48,9 @@ namespace MobileShop.Application.Catalog.Product
             var query = from p in _context.Products
                         join pt in _context.ProductTranslations on p.Id equals pt.ProductId
                         join pc in _context.ProductInCategories on p.Id equals pc.ProductId
-                        join c in _context.Categories on pc.CategoryId equals c.Id
+                        //join c in _context.Categories on pc.CategoryId equals c.Id
                         where pt.LanguageId == request.LanguageId
-                        select new { p, pt, pc, c };
+                        select new { p, pt, pc };
             // Filter
             if (request.CategoryId.HasValue && request.CategoryId.Value > 0)
             {
@@ -75,7 +75,7 @@ namespace MobileShop.Application.Catalog.Product
                     SeoTitle = x.pt.SeoTitle,
                     SeoAlias = x.pt.SeoAlias,
                     LanguageId = x.pt.LanguageId,
-                    Categories = x.c.ProductInCategories.Where(d => d.CategoryId == x.c.Id).Select(e => e.CategoryId).ToList(),
+                    //Categories = x.c.ProductInCategories.Where(d => d.CategoryId == x.c.Id).Select(e => e.CategoryId).ToList(),
                 }).ToListAsync();
             // select and projection
             var pageResult = new PagedResult<ProductVm>

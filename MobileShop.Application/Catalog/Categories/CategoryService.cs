@@ -1,6 +1,6 @@
 ﻿namespace MobileShop.Application.Catalog.Categories
 {
-    class CategoryService : ICategoryService
+    public class CategoryService : ICategoryService
     {
     }
 }

@@ -7,6 +7,11 @@
 	<ItemGroup>
 		<FrameworkReference Include="Microsoft.AspNetCore.App" />
 	</ItemGroup>
+
+	<ItemGroup>
+	  <PackageReference Include="Microsoft.IdentityModel.Tokens" Version="6.26.0" />
+	  <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.26.0" />
+	</ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\MobileShop.Data\MobileShop.Data.csproj" />
     <ProjectReference Include="..\MobileShop.Utilities\MobileShop.Utilities.csproj" />

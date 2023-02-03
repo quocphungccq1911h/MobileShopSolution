@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using MobileShop.Application.Catalog.Product;
 using MobileShop.Application.System.Product;
+using MobileShop.ViewModels.Catalog.Products;
 using System.Threading.Tasks;
 
 namespace MobileShop.WebAPI.Controllers
@@ -28,6 +29,14 @@ namespace MobileShop.WebAPI.Controllers
             if (product == null)
                 return BadRequest();
             return Ok(product);
+        }
+        [HttpPost]
+        public async Task<IActionResult> Create([FromForm] ProductCreateRequest request)
+        {
+            var res = await _productManageService.Create(request);
+            if (res > 0)
+                return Ok(res);
+            return BadRequest();
         }
     }
 }
