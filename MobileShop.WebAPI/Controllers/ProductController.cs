@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using MobileShop.Application.Catalog.Product;
 using MobileShop.Application.System.Product;
 using MobileShop.ViewModels.Catalog.Products;
@@ -8,6 +9,7 @@ namespace MobileShop.WebAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class ProductController : ControllerBase
     {
         private readonly IProductService _service;
