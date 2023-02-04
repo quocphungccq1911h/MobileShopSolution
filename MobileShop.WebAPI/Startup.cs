@@ -1,3 +1,5 @@
+using FluentValidation;
+using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -15,6 +17,7 @@ using MobileShop.Application.System.Users;
 using MobileShop.Data;
 using MobileShop.Data.Entities;
 using MobileShop.Utilities.Constants;
+using MobileShop.ViewModels.System.Users;
 using System.Collections.Generic;
 
 namespace MobileShop.WebAPI
@@ -46,7 +49,12 @@ namespace MobileShop.WebAPI
             services.AddTransient<RoleManager<AppRole>, RoleManager<AppRole>>();
             services.AddTransient<IUserService,UserService>();
 
+            services.AddTransient<IValidator<LoginRequest>, LoginRequestValidator>();
+            services.AddTransient<IValidator<RegisterRequest>, RegisterRequestValidator>();
+
             services.AddControllers();
+            services.AddFluentValidationAutoValidation().AddFluentValidationClientsideAdapters();
+
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Swagger eShop Solution", Version = "v1" });
