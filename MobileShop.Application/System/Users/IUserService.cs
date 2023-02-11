@@ -1,4 +1,5 @@
-﻿using MobileShop.ViewModels.System.Users;
+﻿using MobileShop.ViewModels.Common;
+using MobileShop.ViewModels.System.Users;
 using System.Threading.Tasks;
 
 namespace MobileShop.Application.System.Users
@@ -7,5 +8,6 @@ namespace MobileShop.Application.System.Users
     {
         Task<string> Authencate(LoginRequest request);
         Task<bool> Register(RegisterRequest request);
+        Task<PagedResult<UserVm>> GetUsersPaging(GetUserPagingRequest request);
     }
 }

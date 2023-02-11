@@ -1,10 +1,13 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using MobileShop.Data.Entities;
+using MobileShop.ViewModels.Common;
 using MobileShop.ViewModels.System.Users;
 using System;
 using System.IdentityModel.Tokens.Jwt;
+using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
@@ -52,6 +55,37 @@ namespace MobileShop.Application.System.Users
                expires: DateTime.Now.AddHours(3),
                signingCredentials: creds);
             return new JwtSecurityTokenHandler().WriteToken(token);
+        }
+
+        public async Task<PagedResult<UserVm>> GetUsersPaging(GetUserPagingRequest request)
+        {
+            var query = _userManager.Users;
+
+            if(!string.IsNullOrEmpty(request.Keyword))
+            {
+                query = query.Where(x=>x.UserName.Contains(request.Keyword) || x.PhoneNumber.Contains(request.Keyword));
+            }
+            int totalRow = await query.CountAsync();
+            var data = await query.Skip((request.PageIndex - 1) * request.PageSize)
+                .Take(request.PageSize)
+                .Select(x => new UserVm()
+                {
+                    Email = x.Email,
+                    PhoneNumber = x.PhoneNumber,
+                    UserName = x.UserName,
+                    FirstName = x.FirstName,
+                    Id = x.Id,
+                    LastName = x.LastName,
+                    Dob = x.Dob,
+                }).ToListAsync();
+            var pageResult = new PagedResult<UserVm>()
+            {
+                PageIndex = request.PageIndex,
+                PageSize= request.PageSize,
+                TotalRecords= totalRow,
+                Items = data
+            };
+            return pageResult;
         }
 
         public async Task<bool> Register(RegisterRequest request)

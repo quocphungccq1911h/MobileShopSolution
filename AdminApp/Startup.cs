@@ -28,9 +28,13 @@ namespace AdminApp
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddHttpClient();
+            services.AddSession(option =>
+            {
+                option.IOTimeout = TimeSpan.FromMinutes(30);
+            });
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(option =>
             {
-                option.LoginPath = "/User/Login/";
+                option.LoginPath = "/Login/Login/";
                 option.AccessDeniedPath = "/User/Forbidden/";
             });
             services.AddControllersWithViews();
@@ -66,6 +70,7 @@ namespace AdminApp
             app.UseRouting();
 
             app.UseAuthorization();
+            app.UseSession();
 
             app.UseEndpoints(endpoints =>
             {

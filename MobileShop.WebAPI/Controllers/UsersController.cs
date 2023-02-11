@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MobileShop.Application.System.Users;
 using MobileShop.ViewModels.System.Users;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace MobileShop.WebAPI.Controllers
@@ -45,6 +46,12 @@ namespace MobileShop.WebAPI.Controllers
                 return BadRequest("Register is unsuccessful.");
             }
             return Ok();
+        }
+        [HttpGet("paging")]
+        public async Task<IActionResult> GetAllPaging([FromQuery] GetUserPagingRequest request)
+        {
+            var users = await _service.GetUsersPaging(request);
+            return Ok(users);
         }
     }
 }
