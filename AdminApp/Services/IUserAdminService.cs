@@ -6,8 +6,8 @@ namespace MobileShop.AdminApp.Services
 {
     public interface IUserAdminService
     {
-        Task<string> Authenticate(LoginRequest request);
-        Task<PagedResult<UserVm>> GetUserPaging(GetUserPagingRequest request);
-        Task<bool> RegisterUser(RegisterRequest request);
+        Task<ApiResult<string>> Authenticate(LoginRequest request);
+        Task<ApiResult<PagedResult<UserVm>>> GetUserPaging(GetUserPagingRequest request);
+        Task<ApiResult<bool>> RegisterUser(RegisterRequest request);
     }
 }

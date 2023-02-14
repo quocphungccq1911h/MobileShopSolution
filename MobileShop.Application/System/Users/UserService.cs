@@ -32,12 +32,12 @@ namespace MobileShop.Application.System.Users
             _roleManager = roleManager;
             _config = config;
         }
-        public async Task<string> Authencate(LoginRequest request)
+        public async Task<ApiResult<string>> Authencate(LoginRequest request)
         {
             var user = await _userManager.FindByNameAsync(request.UserName);
             if (user == null) return null;
             var result = await _signInManager.PasswordSignInAsync(user, request.Password, request.RememberMe, true);
-            if(!result.Succeeded) return null;
+            if(!result.Succeeded) return new ApiErrorResult<string>("Đăng nhập không đúng");
             var roles = await _userManager.GetRolesAsync(user);
             var claims = new[]
             {
@@ -54,10 +54,10 @@ namespace MobileShop.Application.System.Users
                claims,
                expires: DateTime.Now.AddHours(3),
                signingCredentials: creds);
-            return new JwtSecurityTokenHandler().WriteToken(token);
+            return new ApiSuccessResult<string>(new JwtSecurityTokenHandler().WriteToken(token));
         }
 
-        public async Task<PagedResult<UserVm>> GetUsersPaging(GetUserPagingRequest request)
+        public async Task<ApiResult<PagedResult<UserVm>>> GetUsersPaging(GetUserPagingRequest request)
         {
             var query = _userManager.Users;
 
@@ -85,12 +85,21 @@ namespace MobileShop.Application.System.Users
                 TotalRecords= totalRow,
                 Items = data
             };
-            return pageResult;
+            return new ApiSuccessResult<PagedResult<UserVm>>(pageResult);
         }
 
-        public async Task<bool> Register(RegisterRequest request)
+        public async Task<ApiResult<bool>> Register(RegisterRequest request)
         {
-            var user = new AppUser()
+            var user = await _userManager.FindByNameAsync(request.UserName);
+            if(user!=null)
+            {
+                return new ApiErrorResult<bool>("Tài khoản đã tồn tại");
+            }
+            if(await _userManager.FindByEmailAsync(request.Email) != null)
+            {
+                return new ApiErrorResult<bool>("Email đã tồn tại");
+            }
+            user = new AppUser()
             {
                 Dob = request.Dob,
                 Email= request.Email,
@@ -100,7 +109,31 @@ namespace MobileShop.Application.System.Users
                 PhoneNumber= request.PhoneNumber
             };
             var result = await _userManager.CreateAsync(user,request.Password);
-            return result.Succeeded ? true : false;
+            if (result.Succeeded)
+            {
+                return new ApiSuccessResult<bool>();
+            }
+            return new ApiErrorResult<bool>("Đăng ký không thành công");
+        }
+
+        public async Task<ApiResult<bool>> UpdateUser(Guid id, UserUpdateRequest request)
+        {
+            if (await _userManager.Users.AllAsync(x=>x.Email == request.Email && x.Id != request.Id))
+            {
+                return new ApiErrorResult<bool>("Email đã tồn tại");
+            }
+            var user = await _userManager.FindByIdAsync(id.ToString());
+            user.Dob = request.Dob;
+            user.Email = request.Email;
+            user.FirstName = request.FirstName;
+            user.LastName = request.LastName;
+            user.PhoneNumber = request.PhoneNumber;
+            var result = await _userManager.UpdateAsync(user);
+            if(result.Succeeded)
+            {
+                return new ApiSuccessResult<bool>();
+            }
+            return new ApiErrorResult<bool>("Cập nhật không thành công");
         }
     }
 }

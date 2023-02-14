@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Configuration;
 using MobileShop.AdminApp.Controllers;
 using MobileShop.AdminApp.Services;
 using MobileShop.ViewModels.System.Users;
@@ -28,7 +27,7 @@ namespace AdminApp.Controllers
                 PageSize = pageSize
             };
             var users = await _userAdminService.GetUserPaging(request);
-            return View(users);
+            return View(users.ResultObj);
         }
         [HttpGet]
         public IActionResult Create()
@@ -40,10 +39,10 @@ namespace AdminApp.Controllers
         {
             if(!ModelState.IsValid)
             {
-                return View(ModelState);
+                return View();
             }
             var result = await _userAdminService.RegisterUser(request);
-            if (result)
+            if (result.IsSuccessed)
             {
                 return RedirectToAction("Index");
             }
