@@ -57,6 +57,26 @@ namespace MobileShop.Application.System.Users
             return new ApiSuccessResult<string>(new JwtSecurityTokenHandler().WriteToken(token));
         }
 
+        public async Task<ApiResult<UserVm>> GetUserById(Guid id)
+        {
+            var data = await _userManager.FindByIdAsync(id.ToString());
+            if(data == null)
+            {
+                return null;
+            }
+            var result = new UserVm()
+            {
+                Id = id,
+                UserName = data.UserName,
+                Dob = data.Dob,
+                Email = data.Email,
+                FirstName = data.FirstName,
+                LastName = data.LastName,
+                PhoneNumber = data.PhoneNumber
+            };
+            return new ApiSuccessResult<UserVm>(result);
+        }
+
         public async Task<ApiResult<PagedResult<UserVm>>> GetUsersPaging(GetUserPagingRequest request)
         {
             var query = _userManager.Users;

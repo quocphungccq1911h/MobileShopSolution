@@ -11,5 +11,6 @@ namespace MobileShop.Application.System.Users
         Task<ApiResult<bool>> Register(RegisterRequest request);
         Task<ApiResult<PagedResult<UserVm>>> GetUsersPaging(GetUserPagingRequest request);
         Task<ApiResult<bool>> UpdateUser(Guid id, UserUpdateRequest request);
+        Task<ApiResult<UserVm>> GetUserById(Guid id);
     }
 }

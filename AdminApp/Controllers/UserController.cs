@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using MobileShop.AdminApp.Controllers;
 using MobileShop.AdminApp.Services;
 using MobileShop.ViewModels.System.Users;
+using System;
 using System.Threading.Tasks;
 
 namespace AdminApp.Controllers
@@ -27,7 +28,9 @@ namespace AdminApp.Controllers
                 PageSize = pageSize
             };
             var users = await _userAdminService.GetUserPaging(request);
-            return View(users.ResultObj);
+            if(users.IsSuccessed)
+                return View(users.ResultObj);
+            return RedirectToAction("Error", "User");
         }
         [HttpGet]
         public IActionResult Create()
@@ -43,6 +46,40 @@ namespace AdminApp.Controllers
             }
             var result = await _userAdminService.RegisterUser(request);
             if (result.IsSuccessed)
+            {
+                return RedirectToAction("Index");
+            }
+            return View(request);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Edit(Guid id)
+        {
+            var result = await _userAdminService.GetUserById(id);
+            if(result.IsSuccessed)
+            {
+                var user = result.ResultObj;
+                var updateUserRequest = new UserUpdateRequest()
+                {
+                    Dob = user.Dob,
+                    Email = user.Email,
+                    FirstName = user.FirstName,
+                    LastName = user.LastName,
+                    PhoneNumber = user.PhoneNumber,
+                };
+                return View(updateUserRequest);
+            }
+            return RedirectToAction("Error", "User");
+        }
+        [HttpPost]
+        public async Task<IActionResult> Edit(UserUpdateRequest request)
+        {
+            if(!ModelState.IsValid)
+            {
+                return View();
+            }
+            var result = await _userAdminService.UpdateUser(request.Id, request);   
+            if(result.IsSuccessed)
             {
                 return RedirectToAction("Index");
             }

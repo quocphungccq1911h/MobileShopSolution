@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MobileShop.Application.System.Users;
 using MobileShop.ViewModels.System.Users;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -10,6 +11,7 @@ namespace MobileShop.WebAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class UsersController : ControllerBase
     {
         private readonly IUserService _service;
@@ -21,12 +23,12 @@ namespace MobileShop.WebAPI.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> Authenticate([FromBody] LoginRequest request)
         {
-            if(!ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
             var resultToken = await _service.Authencate(request);
-            if(string.IsNullOrEmpty(resultToken.ResultObj))
+            if (string.IsNullOrEmpty(resultToken.ResultObj))
             {
                 return BadRequest("UserName or password is incorrect.");
             }
@@ -36,22 +38,38 @@ namespace MobileShop.WebAPI.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> Register([FromBody] RegisterRequest request)
         {
-            if(!ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
             var result = await _service.Register(request);
-            if(!result.IsSuccessed)
+            if (!result.IsSuccessed)
             {
                 return BadRequest("Register is unsuccessful.");
             }
-            return Ok();
+            return Ok(result);
         }
         [HttpGet("paging")]
         public async Task<IActionResult> GetAllPaging([FromQuery] GetUserPagingRequest request)
         {
             var users = await _service.GetUsersPaging(request);
             return Ok(users);
+        }
+        [HttpGet("getUserById")]
+        public async Task<IActionResult> GetUserById(Guid id)
+        {
+            var user = await _service.GetUserById(id);
+            return Ok(user);
+        }
+        [HttpPut]
+        public async Task<IActionResult> UpdateUser(Guid id, [FromBody] UserUpdateRequest request)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            var data = await _service.UpdateUser(id, request);
+            return Ok(data);
         }
     }
 }
