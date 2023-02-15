@@ -17,7 +17,7 @@ namespace AdminApp.Controllers
         {
             _userAdminService = userAdminService;
         }
-        public async Task<IActionResult> Index(string keyword, int pageIndex = 1, int pageSize = 10)
+        public async Task<IActionResult> Index(string keyword, int pageIndex = 1, int pageSize = 1)
         {
             var session = HttpContext.Session.GetString("Token");
             var request = new GetUserPagingRequest()
