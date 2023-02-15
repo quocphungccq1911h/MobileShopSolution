@@ -1,10 +1,8 @@
 ﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MobileShop.Application.System.Users;
 using MobileShop.ViewModels.System.Users;
 using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace MobileShop.WebAPI.Controllers
@@ -69,6 +67,12 @@ namespace MobileShop.WebAPI.Controllers
                 return BadRequest(ModelState);
             }
             var data = await _service.UpdateUser(id, request);
+            return Ok(data);
+        }
+        [HttpDelete]
+        public async Task<IActionResult> DeleteUser(Guid id)
+        {
+            var data = await _service.DeleteUser(id);
             return Ok(data);
         }
     }

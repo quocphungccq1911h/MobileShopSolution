@@ -28,7 +28,7 @@ namespace AdminApp.Controllers
                 PageSize = pageSize
             };
             var users = await _userAdminService.GetUserPaging(request);
-            if(users.IsSuccessed)
+            if (users.IsSuccessed)
                 return View(users.ResultObj);
             return RedirectToAction("Error", "User");
         }
@@ -40,7 +40,7 @@ namespace AdminApp.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(RegisterRequest request)
         {
-            if(!ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
                 return View();
             }
@@ -56,7 +56,7 @@ namespace AdminApp.Controllers
         public async Task<IActionResult> Edit(Guid id)
         {
             var result = await _userAdminService.GetUserById(id);
-            if(result.IsSuccessed)
+            if (result.IsSuccessed)
             {
                 var user = result.ResultObj;
                 var updateUserRequest = new UserUpdateRequest()
@@ -74,18 +74,41 @@ namespace AdminApp.Controllers
         [HttpPost]
         public async Task<IActionResult> Edit(UserUpdateRequest request)
         {
-            if(!ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
                 return View();
             }
-            var result = await _userAdminService.UpdateUser(request.Id, request);   
-            if(result.IsSuccessed)
+            var result = await _userAdminService.UpdateUser(request.Id, request);
+            if (result.IsSuccessed)
             {
                 return RedirectToAction("Index");
             }
             return View(request);
         }
-        
+
+        [HttpGet]
+        public IActionResult Delete(Guid id)
+        {
+            return View(new UserDeleteRequest()
+            {
+                Id = id
+            });
+        }
+        [HttpPost]
+        public async Task<IActionResult> Delete(UserDeleteRequest request)
+        {
+            if(!ModelState.IsValid)
+            {
+                return View();
+            }
+            var result = await _userAdminService.DeleteUser(request.Id);
+            if (result.IsSuccessed)
+            {
+                return RedirectToAction("Index");
+            }
+            return View(request);
+        }
+
         [HttpPost]
         public async Task<IActionResult> Logout()
         {
