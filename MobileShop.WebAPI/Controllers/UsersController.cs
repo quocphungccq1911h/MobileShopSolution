@@ -28,7 +28,7 @@ namespace MobileShop.WebAPI.Controllers
             var resultToken = await _service.Authencate(request);
             if (string.IsNullOrEmpty(resultToken.ResultObj))
             {
-                return BadRequest("UserName or password is incorrect.");
+                return BadRequest(resultToken);
             }
             return Ok(resultToken);
         }
@@ -43,7 +43,7 @@ namespace MobileShop.WebAPI.Controllers
             var result = await _service.Register(request);
             if (!result.IsSuccessed)
             {
-                return BadRequest("Register is unsuccessful.");
+                return BadRequest(result);
             }
             return Ok(result);
         }

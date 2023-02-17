@@ -42,6 +42,11 @@ namespace MobileShop.AdminApp.Controllers
                 return View();
             }
             var token = await _userAdminService.Authenticate(request);
+            if(token.ResultObj == null)
+            {
+                ModelState.AddModelError("", token.Message);
+                return View();
+            }
             var userPrincipal = this.ValidateToken(token.ResultObj);
             var authProperties = new AuthenticationProperties()
             {

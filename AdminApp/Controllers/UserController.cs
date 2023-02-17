@@ -17,19 +17,25 @@ namespace AdminApp.Controllers
         {
             _userAdminService = userAdminService;
         }
-        public async Task<IActionResult> Index(string keyword, int pageIndex = 1, int pageSize = 1)
+        public async Task<IActionResult> Index(string keyword, int pageIndex = 1, int pageSize = 5)
         {
-            var session = HttpContext.Session.GetString("Token");
+            
             var request = new GetUserPagingRequest()
             {
-                BearerToken = session,
                 Keyword = keyword,
                 PageIndex = pageIndex,
                 PageSize = pageSize
             };
             var users = await _userAdminService.GetUserPaging(request);
+            ViewBag.Keyword = keyword;
+            if(TempData["result"] != null)
+            {
+                ViewBag.SuccessMsg = TempData["result"];
+            }
             if (users.IsSuccessed)
+            {
                 return View(users.ResultObj);
+            }       
             return RedirectToAction("Error", "User");
         }
         [HttpGet]
@@ -47,9 +53,14 @@ namespace AdminApp.Controllers
             var result = await _userAdminService.RegisterUser(request);
             if (result.IsSuccessed)
             {
+                TempData["result"] = "Thêm mới người dùng thành công";
                 return RedirectToAction("Index");
             }
-            return View(request);
+            else
+            {
+                ModelState.AddModelError("", result.Message);
+                return View(request);
+            }
         }
 
         [HttpGet]
@@ -81,6 +92,7 @@ namespace AdminApp.Controllers
             var result = await _userAdminService.UpdateUser(request.Id, request);
             if (result.IsSuccessed)
             {
+                TempData["result"] = "Cập nhật người dùng thành công";
                 return RedirectToAction("Index");
             }
             return View(request);
@@ -104,6 +116,7 @@ namespace AdminApp.Controllers
             var result = await _userAdminService.DeleteUser(request.Id);
             if (result.IsSuccessed)
             {
+                TempData["result"] = "Xóa người dùng thành công";
                 return RedirectToAction("Index");
             }
             return View(request);

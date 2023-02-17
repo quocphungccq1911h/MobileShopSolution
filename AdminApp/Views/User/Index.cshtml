@@ -6,6 +6,13 @@
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+@section Scripts {
+    <script>
+        setTimeout(() => {
+            $('#msgAlert').fadeOut('slow');
+        }, 2000);
+    </script>
+}
 
 <style>
     .add-user {
@@ -13,12 +20,31 @@
         right: 34px;
         position: absolute;
     }
-    .add-user a{
-        text-decoration: none;
-        width: auto;
-        border: 1px solid #333;
-        padding: 5px;
-        
+
+        .add-user a {
+            text-decoration: none;
+            width: auto;
+            border: 1px solid #333;
+            padding: 5px;
+        }
+
+    .datatable-top {
+        display: none;
+    }
+
+    .top-header-user {
+        position: relative;
+        display: flex;
+        padding: 10px;
+    }
+
+    .search-user {
+        position: absolute;
+        right: 10px;
+    }
+
+    .title-header-user {
+        margin-left: 10px;
     }
 </style>
 
@@ -29,10 +55,24 @@
     </p>
     <div class="container-fluid px-4">
         <h1 class="mt-4">Quản lý tài khoản</h1>
+        @if (ViewBag.SuccessMsg != null)
+        {
+            <div class="alert alert-success" id="msgAlert" role="alert">
+                @ViewBag.SuccessMsg
+            </div>
+        }
         <div class="card mb-4">
-            <div class="card-header">
-                <i class="fas fa-table me-1"></i>
-                Tài khoản
+            <div class="top-header-user">
+                <div class="title-header-user">
+                    <h4>Tài khoản</h4>
+                </div>
+                <div class="search-user">
+                    <form asp-action="Index" method="get">
+                        <input class="form-control-sm" type="text" value="@ViewBag.Keyword" name="keyword" placeholder="Tìm kiếm tài khoản" />
+                        <button class="btn btn-primary" type="submit">Tìm</button>
+                        <button class="btn btn-secondary" type="button" onclick="window.location.href='User/Index'">Reset</button>
+                    </form>
+                </div>
             </div>
             <div class="card-body">
                 <table id="datatablesSimple">
@@ -120,7 +160,7 @@
                 </table>
                 @await Component.InvokeAsync("Pager", Model)
             </div>
-            
+
         </div>
     </div>
 </div>

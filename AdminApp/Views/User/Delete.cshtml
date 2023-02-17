@@ -5,20 +5,12 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<script>
-    var myModal = document.getElementById('myModal')
-    var myInput = document.getElementById('myInput')
 
-    myModal.addEventListener('shown.bs.modal', function () {
-        myInput.focus()
-    })
-</script>
+<h1>Xóa tài khoản</h1>
 
-<h1>DeleteUser</h1>
-
-<h3>Are you sure you want to delete this?</h3>
+<h3>Bạn chắc chắn xóa tài khoản này</h3>
 <div>
-    <h4>UserDeleteRequest</h4>
+    <h4>Yêu cầu xóa tài khoản</h4>
     <hr />
     <dl class="row">
         <dt class="col-sm-2">
@@ -32,28 +24,7 @@
     <form asp-action="Delete">
         <input type="submit" value="Delete" class="btn btn-danger" /> |
         <a asp-action="Index">Back to List</a>
-    </form>
+    </form>             
 </div>
 
-<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
-    Xóa tài khoản
-</button>
 
-<!-- Modal -->
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                ...
-            </div>
-            <form class="modal-footer" asp-action="Delete">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="submit" class="btn btn-primary">Xóa</button>
-            </form>
-        </div>
-    </div>
-</div>
