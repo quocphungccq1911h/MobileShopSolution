@@ -1,0 +1,53 @@
+﻿@model MobileShop.ViewModels.System.Users.RoleAssignRequest
+
+@{
+    ViewData["Title"] = "Gán quyền";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    .assign-role {
+        padding-top: 50px;
+    }
+</style>
+
+<div class="assign-role">
+    <div class="container-fluid px-4">
+        <div class="row justify-content-center">
+            <div class="col-lg-6">
+                <div class="card shadow-lg border-0 rounded-lg mt-7">
+                    <div class="card-header"><h3 class="text-center font-weight-light my-4">Cập nhật quyền</h3></div>
+                    <div class="card-body">
+                        <form asp-action="RoleAssign">
+                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                            @for (int i = 0; i < Model.Roles.Count; i++)
+                            {
+                                <div class="form-check">
+
+                                    <label class="form-check-label" for="flexCheckChecked">
+                                        @Model.Roles[i].Name
+                                        <input class="form-check-input" type="checkbox" id="flexCheckChecked" asp-for="Roles[i].Selected">
+                                        <input type="hidden" asp-for="Roles[i].Id" />
+                                        <input type="hidden" asp-for="Roles[i].Name" />
+                                    </label>
+                                </div>
+
+                            }
+                            <div class="form-group">
+                                <input type="submit" value="Cập nhật" class="btn btn-primary" />
+                            </div>
+                        </form>
+                        <div>
+                            <a asp-action="Index">Quay lại danh sách</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+   
+
+
+</div>
+

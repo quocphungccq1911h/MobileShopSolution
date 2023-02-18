@@ -45,6 +45,8 @@ namespace AdminApp
             services.AddFluentValidationAutoValidation().AddFluentValidationClientsideAdapters();
 
             services.AddTransient<IUserAdminService, UserAdminService>();
+            services.AddTransient<IRoleAdminService, RoleAdminService>();
+
             services.AddTransient<IValidator<LoginRequest>, LoginRequestValidator>();
             services.AddTransient<IValidator<RegisterRequest>, RegisterRequestValidator>();
 

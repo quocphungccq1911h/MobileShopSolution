@@ -75,5 +75,15 @@ namespace MobileShop.WebAPI.Controllers
             var data = await _service.DeleteUser(id);
             return Ok(data);
         }
+        [HttpPut("{id}/roles")]
+        public async Task<IActionResult> AssignRole(Guid id, RoleAssignRequest request)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            var result = await _service.AssignRole(id, request);
+            return Ok(result);
+        }
     }
 }

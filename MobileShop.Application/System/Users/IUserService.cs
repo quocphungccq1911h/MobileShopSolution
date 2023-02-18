@@ -13,5 +13,6 @@ namespace MobileShop.Application.System.Users
         Task<ApiResult<bool>> UpdateUser(Guid id, UserUpdateRequest request);
         Task<ApiResult<UserVm>> GetUserById(Guid id);
         Task<ApiResult<bool>> DeleteUser(Guid id);
+        Task<ApiResult<bool>> AssignRole(Guid id, RoleAssignRequest request);
     }
 }

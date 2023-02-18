@@ -32,6 +32,35 @@ namespace MobileShop.Application.System.Users
             _roleManager = roleManager;
             _config = config;
         }
+
+        public async Task<ApiResult<bool>> AssignRole(Guid id, RoleAssignRequest request)
+        {
+            var user = await _userManager.FindByIdAsync(id.ToString());
+            if(user == null)
+            {
+                return new ApiErrorResult<bool>("Tài khoản không tồn tại");
+            }
+            // Lấy ra danh sách các role không được chọn
+            var removeRole = request.Roles.Where(x => x.Selected == false).Select(x => x.Name).ToList();
+            foreach(var roleName in removeRole)
+            {
+                if(await _userManager.IsInRoleAsync(user, roleName))
+                {
+                    await _userManager.RemoveFromRoleAsync(user, roleName);
+                }
+            }
+            // Lấy ra danh sách các role được chọn
+            var addRoles = request.Roles.Where(x => x.Selected).Select(x => x.Name).ToList();
+            foreach(var roleName in addRoles)
+            {
+                if(await _userManager.IsInRoleAsync(user, roleName) == false)
+                {
+                    await _userManager.AddToRoleAsync(user, roleName);
+                }
+            }
+            return new ApiSuccessResult<bool>();
+        }
+
         public async Task<ApiResult<string>> Authencate(LoginRequest request)
         {
             var user = await _userManager.FindByNameAsync(request.UserName);
@@ -79,6 +108,7 @@ namespace MobileShop.Application.System.Users
             {
                 return null;
             }
+            var roles = await _userManager.GetRolesAsync(data);
             var result = new UserVm()
             {
                 Id = id,
@@ -87,7 +117,8 @@ namespace MobileShop.Application.System.Users
                 Email = data.Email,
                 FirstName = data.FirstName,
                 LastName = data.LastName,
-                PhoneNumber = data.PhoneNumber
+                PhoneNumber = data.PhoneNumber,
+                Roles = roles
             };
             return new ApiSuccessResult<UserVm>(result);
         }
