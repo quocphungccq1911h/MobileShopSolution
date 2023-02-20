@@ -1,7 +1,5 @@
-﻿@using MobileShop.ViewModels.Common;
-@using MobileShop.ViewModels.System.Users;
-@model PagedResult<UserVm>
-
+﻿@using MobileShop.ViewModels.Common
+@model PagedResult<MobileShop.ViewModels.Catalog.Products.ProductVm>
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -13,21 +11,17 @@
         }, 2000);
     </script>
 }
-
 @section Styles {
 
     <link href="~/css/custom.css" rel="stylesheet" />
 }
-
-
-
 <div class="container-fluid">
 
     <p class="add-user">
         <a asp-action="Create" class="btn btn-success">Thêm mới</a>
     </p>
     <div class="container-fluid px-4">
-        <h1 class="mt-4">Quản lý tài khoản</h1>
+        <h1 class="mt-4">Quản lý sản phẩm</h1>
         @if (ViewBag.SuccessMsg != null)
         {
             <div class="alert alert-success" id="msgAlert" role="alert">
@@ -37,13 +31,13 @@
         <div class="card mb-4">
             <div class="top-header-user">
                 <div class="title-header-user">
-                    <h4>Tài khoản</h4>
+                    <h4>Sản phẩm</h4>
                 </div>
                 <div class="search-user">
                     <form asp-action="Index" method="get">
-                        <input class="form-control-sm" type="text" value="@ViewBag.Keyword" name="keyword" placeholder="Tìm kiếm tài khoản" />
+                        <input class="form-control-sm" type="text" value="@ViewBag.Keyword" name="keyword" placeholder="Tìm kiếm sản phẩm" />
                         <button class="btn btn-primary" type="submit">Tìm</button>
-                        <button class="btn btn-secondary" type="button" onclick="window.location.href='User/Index'">Reset</button>
+                        <button class="btn btn-secondary" type="button" onclick="window.location.href='Product/Index'">Reset</button>
                     </form>
                 </div>
             </div>
@@ -52,47 +46,42 @@
                     <thead>
                         <tr>
                             <th>
-                                FirstName
+                                Mã SP
                             </th>
                             <th>
-                                LastName
+                                Tên
                             </th>
                             <th>
-                                PhoneNumber
+                                Giá Nhập
                             </th>
                             <th>
-                                UserName
+                                Giá bán
                             </th>
                             <th>
-                                Email
-                            </th>
-                            <th>
-                                Dob
+                                Số lượng tồn
                             </th>
                             <th>
                                 Action
                             </th>
+
                         </tr>
                     </thead>
                     <tfoot>
                         <tr>
                             <th>
-                                FirstName
+                                Mã SP
                             </th>
                             <th>
-                                LastName
+                                Tên
                             </th>
                             <th>
-                                PhoneNumber
+                                Giá Nhập
                             </th>
                             <th>
-                                UserName
+                                Giá bán
                             </th>
                             <th>
-                                Email
-                            </th>
-                            <th>
-                                Dob
+                                Số lượng tồn
                             </th>
                             <th>
                                 Action
@@ -105,28 +94,24 @@
                             <tr>
 
                                 <td>
-                                    @Html.DisplayFor(modelItem => item.FirstName)
+                                    @Html.DisplayFor(modelItem => item.Id)
                                 </td>
                                 <td>
-                                    @Html.DisplayFor(modelItem => item.LastName)
+                                    @Html.DisplayFor(modelItem => item.Name)
                                 </td>
                                 <td>
-                                    @Html.DisplayFor(modelItem => item.PhoneNumber)
+                                    @Html.DisplayFor(modelItem => item.OriginalPrice)
                                 </td>
                                 <td>
-                                    @Html.DisplayFor(modelItem => item.UserName)
+                                    @Html.DisplayFor(modelItem => item.Price)
                                 </td>
                                 <td>
-                                    @Html.DisplayFor(modelItem => item.Email)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.Dob)
+                                    @Html.DisplayFor(modelItem => item.Stock)
                                 </td>
                                 <td>
                                     @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
                                     @Html.ActionLink("Details", "Details", new { id = item.Id }) |
-                                    @Html.ActionLink("Delete", "Delete", new { id = item.Id }) |
-                                    @Html.ActionLink("Gán quyền", "RoleAssign", new { id = item.Id })
+                                    @Html.ActionLink("Delete", "Delete", new { id = item.Id })
                                 </td>
                             </tr>
                         }
@@ -138,4 +123,3 @@
         </div>
     </div>
 </div>
-

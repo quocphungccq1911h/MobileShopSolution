@@ -19,10 +19,16 @@ namespace MobileShop.WebAPI.Controllers
             _service = service;
             _productManageService = productManageService;
         }
-        [HttpGet]
-        public async Task<IActionResult> GetAll(string languageId)
+        //[HttpGet]
+        //public async Task<IActionResult> GetAll(string languageId)
+        //{
+        //    return Ok(await _service.GetAll(languageId));
+        //}
+        [HttpGet("paging")]
+        public async Task<IActionResult> GetPaging([FromQuery]GetManageProductPagingRequest request)
         {
-            return Ok(await _service.GetAll(languageId));
+            var data = await _productManageService.GetAllPaging(request);
+            return Ok(data);
         }
         [HttpGet("GetById")]
         public async Task<IActionResult> GetById([FromQuery]int productId, string languageId)

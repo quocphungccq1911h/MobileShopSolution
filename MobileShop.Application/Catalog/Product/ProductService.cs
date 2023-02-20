@@ -20,7 +20,7 @@ namespace MobileShop.Application.Catalog.Product
             var query = from p in _context.Products
                         join pt in _context.ProductTranslations on p.Id equals pt.ProductId
                         join pc in _context.ProductInCategories on p.Id equals pc.ProductId
-                        //join c in _context.Categories on pc.CategoryId equals c.Id
+                        join c in _context.Categories on pc.CategoryId equals c.Id
                         where pt.LanguageId == languageId
                         select new { p, pt, pc };
             var data = await query.Select(x => new ProductVm()

@@ -104,11 +104,16 @@ namespace MobileShop.Application.System.Product
                         join pt in _context.ProductTranslations on p.Id equals pt.ProductId
                         join pic in _context.ProductInCategories on p.Id equals pic.ProductId
                         join c in _context.Categories on pic.CategoryId equals c.Id
-                        select new { p, pt };
+                        where pt.LanguageId == request.LanguageId
+                        select new { p, pt, pic };
             // Filter
             if (!string.IsNullOrEmpty(request.Keyword))
             {
                 query = query.Where(x => x.pt.Name.Contains(request.Keyword));
+            }
+            if (request.CategoryIds != null && request.CategoryIds.Count > 0)
+            {
+                query = query.Where(p => request.CategoryIds.Contains(p.pic.CategoryId));
             }
             // Paging
             int totalRow = await query.CountAsync();
@@ -135,7 +140,9 @@ namespace MobileShop.Application.System.Product
             var pageResult = new PagedResult<ProductVm>
             {
                 TotalRecords = totalRow,
-                Items = data
+                Items = data,
+                PageIndex = request.PageIndex,
+                PageSize = request.PageSize
             };
             return pageResult;
         }

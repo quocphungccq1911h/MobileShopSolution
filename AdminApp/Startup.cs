@@ -47,6 +47,7 @@ namespace AdminApp
             services.AddTransient<IUserAdminService, UserAdminService>();
             services.AddTransient<IRoleAdminService, RoleAdminService>();
             services.AddTransient<ILanguageAdminService, LanguageAdminService>();
+            services.AddTransient<IProductAdminService, ProductAdminService>();
 
             services.AddTransient<IValidator<LoginRequest>, LoginRequestValidator>();
             services.AddTransient<IValidator<RegisterRequest>, RegisterRequestValidator>();

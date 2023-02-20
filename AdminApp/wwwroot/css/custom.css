@@ -1,0 +1,32 @@
+﻿
+.add-user {
+    padding-top: 10px;
+    right: 34px;
+    position: absolute;
+}
+
+.add-user a {
+    text-decoration: none;
+    width: auto;
+    border: 1px solid #333;
+    padding: 5px;
+}
+
+.datatable-top {
+    display: none;
+}
+
+.top-header-user {
+    position: relative;
+    display: flex;
+    padding: 10px;
+}
+
+.search-user {
+    position: absolute;
+    right: 10px;
+}
+
+.title-header-user {
+    margin-left: 10px;
+}
