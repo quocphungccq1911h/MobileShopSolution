@@ -12,6 +12,7 @@ using System.Security.Claims;
 using System.Text;
 using Microsoft.Extensions.Configuration;
 using MobileShop.AdminApp.Services;
+using MobileShop.Utilities.Constants;
 
 namespace MobileShop.AdminApp.Controllers
 {
@@ -53,7 +54,8 @@ namespace MobileShop.AdminApp.Controllers
                 ExpiresUtc = DateTimeOffset.UtcNow.AddMinutes(10),
                 IsPersistent = false,
             };
-            HttpContext.Session.SetString("Token", token.ResultObj);
+            HttpContext.Session.SetString(SystemConstans.AppSetting.Token, token.ResultObj);
+            HttpContext.Session.SetString(SystemConstans.AppSetting.DefaultLanguageId, _configuration[SystemConstans.AppSetting.DefaultLanguageId]);
             await HttpContext.SignInAsync(
                        CookieAuthenticationDefaults.AuthenticationScheme,
                        userPrincipal,

@@ -1,7 +1,10 @@
 ﻿using AdminApp.Models;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using MobileShop.AdminApp.Controllers;
+using MobileShop.AdminApp.Models;
+using MobileShop.Utilities.Constants;
 using System.Diagnostics;
 
 namespace AdminApp.Controllers
@@ -29,6 +32,12 @@ namespace AdminApp.Controllers
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        }
+        [HttpPost]
+        public IActionResult Language(NavigationVM navigationVM)
+        {
+            HttpContext.Session.SetString(SystemConstans.AppSetting.DefaultLanguageId, navigationVM.CurrentLanguageId);
+            return RedirectToAction("Index");
         }
     }
 }

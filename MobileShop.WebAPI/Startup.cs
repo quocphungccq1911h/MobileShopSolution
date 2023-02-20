@@ -12,6 +12,7 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using MobileShop.Application.Catalog.Product;
 using MobileShop.Application.Common;
+using MobileShop.Application.System.Languages;
 using MobileShop.Application.System.Product;
 using MobileShop.Application.System.Roles;
 using MobileShop.Application.System.Users;
@@ -50,6 +51,8 @@ namespace MobileShop.WebAPI
             services.AddTransient<RoleManager<AppRole>, RoleManager<AppRole>>();
             services.AddTransient<IUserService,UserService>();
             services.AddTransient<IRoleService, RoleService>();
+            services.AddTransient<ILanguageService, LanguageService>();
+
 
             services.AddTransient<IValidator<LoginRequest>, LoginRequestValidator>();
             services.AddTransient<IValidator<RegisterRequest>, RegisterRequestValidator>();

@@ -5,6 +5,7 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+		<ProjectReference Include="..\MobileShop.Utilities\MobileShop.Utilities.csproj" />
 		<ProjectReference Include="..\MobileShop.ViewModels\MobileShop.ViewModels.csproj" />
 	</ItemGroup>
 
