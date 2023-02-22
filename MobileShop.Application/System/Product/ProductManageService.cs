@@ -60,7 +60,7 @@ namespace MobileShop.Application.System.Product
                 }
             };
             // Save Image
-            if(request.ThumbnailImage != null)
+            if (request.ThumbnailImage != null)
             {
                 product.ProductImages = new List<Data.Entities.ProductImage>()
                 {
@@ -76,7 +76,8 @@ namespace MobileShop.Application.System.Product
                 };
             }
             _context.Products.Add(product);
-            return await _context.SaveChangesAsync();
+            await _context.SaveChangesAsync();
+            return product.Id;
         }
 
         public async Task<int> Delete(int productId)
@@ -84,7 +85,7 @@ namespace MobileShop.Application.System.Product
             var product = await _context.Products.FindAsync(productId);
             if (product == null) throw new MobileShopException($"Cannot find product: {productId}");
             var images = _context.ProductImages.Where(x => x.ProductId == productId);
-            foreach(var image in images)
+            foreach (var image in images)
             {
                 await _storageService.DeleteFileAsync(image.ImagePath);
             }
@@ -102,19 +103,19 @@ namespace MobileShop.Application.System.Product
             // Select and Join
             var query = from p in _context.Products
                         join pt in _context.ProductTranslations on p.Id equals pt.ProductId
-                        join pic in _context.ProductInCategories on p.Id equals pic.ProductId
-                        join c in _context.Categories on pic.CategoryId equals c.Id
+                        //join pic in _context.ProductInCategories on p.Id equals pic.ProductId
+                        //join c in _context.Categories on pic.CategoryId equals c.Id
                         where pt.LanguageId == request.LanguageId
-                        select new { p, pt, pic };
+                        select new { p, pt };
             // Filter
             if (!string.IsNullOrEmpty(request.Keyword))
             {
                 query = query.Where(x => x.pt.Name.Contains(request.Keyword));
             }
-            if (request.CategoryIds != null && request.CategoryIds.Count > 0)
-            {
-                query = query.Where(p => request.CategoryIds.Contains(p.pic.CategoryId));
-            }
+            //if (request.CategoryIds != null && request.CategoryIds.Count > 0)
+            //{
+            //    query = query.Where(p => request.CategoryIds.Contains(p.pic.CategoryId));
+            //}
             // Paging
             int totalRow = await query.CountAsync();
             var data = await query.Skip((request.PageIndex - 1) * request.PageSize)
@@ -194,10 +195,10 @@ namespace MobileShop.Application.System.Product
             productTranslations.Details = request.Details;
             productTranslations.Description = request.Description;
             // Save Image
-            if(request.Thumbnail != null)
+            if (request.Thumbnail != null)
             {
                 var thumbnailImage = await _context.ProductImages.FirstOrDefaultAsync(x => x.ProductId == request.Id && x.IsDefault);
-                if(thumbnailImage != null)
+                if (thumbnailImage != null)
                 {
                     thumbnailImage.FileSize = (int)request.Thumbnail.Length;
                     thumbnailImage.ImagePath = await this.SaveFile(request.Thumbnail);

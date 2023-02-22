@@ -48,6 +48,8 @@ namespace AdminApp
             services.AddTransient<IRoleAdminService, RoleAdminService>();
             services.AddTransient<ILanguageAdminService, LanguageAdminService>();
             services.AddTransient<IProductAdminService, ProductAdminService>();
+            services.AddTransient<ICategoryAdminService, CategoryAdminService>();
+
 
             services.AddTransient<IValidator<LoginRequest>, LoginRequestValidator>();
             services.AddTransient<IValidator<RegisterRequest>, RegisterRequestValidator>();

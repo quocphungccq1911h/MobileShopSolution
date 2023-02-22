@@ -1,0 +1,89 @@
+﻿@model MobileShop.ViewModels.Catalog.Products.ProductCreateRequest
+
+@{
+    ViewData["Title"] = "Tạo mới sản phẩm";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section Scripts {
+    <script src="https://cdn.ckeditor.com/ckeditor5/36.0.1/classic/ckeditor.js"></script>
+    <script>
+        ClassicEditor
+            .create(document.querySelector('#txtDetails'))
+            .catch(error => {
+                console.error(error);
+            });
+    </script>
+}
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-lg-7">
+            <div class="card shadow-lg border-0 rounded-lg mt-5">
+                <div class="card-header"><h3 class="text-center font-weight-light my-4">Thêm mới sản phẩm</h3></div>
+                <div class="card-body">
+                    <form asp-action="Create" enctype="multipart/form-data" method="post">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <div class="form-group py-1">
+                            <label class="control-label">Tên sản phẩm</label>
+                            <input asp-for="Name" class="form-control" />
+                            <span asp-validation-for="Name" class="text-danger"></span>
+                        </div>
+                        <div class="form-group py-1">
+                            <label class="control-label">Loại sản phẩm</label>
+                            <input asp-for="CategoryId" class="form-control" />
+                            <span asp-validation-for="CategoryId" class="text-danger"></span>
+                        </div>
+                        <div class="form-group py-1">
+                            <label class="control-label">Giá nhập</label>
+                            <input asp-for="Price" class="form-control" />
+                            <span asp-validation-for="Price" class="text-danger"></span>
+                        </div>
+                        <div class="form-group py-1">
+                            <label class="control-label">Giá khuyến mãi</label>
+                            <input asp-for="OriginalPrice" class="form-control" />
+                            <span asp-validation-for="OriginalPrice" class="text-danger"></span>
+                        </div>
+                        <div class="form-group py-1">
+                            <label class="control-label">Tồn kho</label>
+                            <input asp-for="Stock" class="form-control" />
+                            <span asp-validation-for="Stock" class="text-danger"></span>
+                        </div>
+                        <div class="form-group py-1">
+                            <label asp-for="Description" class="control-label"></label>
+                            <input asp-for="Description" class="form-control" />
+                            <span asp-validation-for="Description" class="text-danger"></span>
+                        </div>
+                        <div class="form-group py-1">
+                            <label class="control-label">Chi tiết</label>
+                            <textarea rows="100" id="txtDetails" asp-for="Details" class="form-control"></textarea>
+                            <span asp-validation-for="Details" class="text-danger"></span>
+                        </div>
+                        <div class="form-group py-1">
+                            <label class="control-label">Đường dẫn SEO</label>
+                            <input asp-for="SeoAlias" class="form-control" />
+                            <span asp-validation-for="SeoAlias" class="text-danger"></span>
+                        </div>
+                        <div class="form-group py-1">
+                            <label class="control-label">Ngôn ngữ</label>
+                            <input asp-for="LanguageId" class="form-control" />
+                            <span asp-validation-for="LanguageId" class="text-danger"></span>
+                        </div>
+                        <div class="form-group  py-1">
+                            <label class="control-label">Hình ảnh</label>
+                            <input asp-for="ThumbnailImage" type="file" class="form-control" />
+                            <span asp-validation-for="ThumbnailImage" class="text-danger"></span>
+                        </div>
+                        <div class="form-group py-2">
+                            <input type="submit" value="Thêm mới" class="btn btn-primary" />
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div>
+                <a asp-action="Index">Về danh sách sản phẩm</a>
+            </div>
+        </div>
+
+    </div>
+</div>
