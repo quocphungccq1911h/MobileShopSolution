@@ -4,7 +4,7 @@ using MobileShop.ViewModels.Common;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace MobileShop.Application.System.Product
+namespace MobileShop.Application.Catalog.Product
 {
     public interface IProductManageService
     {
@@ -20,6 +20,7 @@ namespace MobileShop.Application.System.Product
         Task<int> RemoveImage(int imageId);
         Task<int> UpdateImage(int imageId, string caption, bool isDefault);
         Task<List<ProductImageVM>> GetListImage(int productId);
-        Task<ProductVm> GetProductById(int productId, string languageId);
+        Task<ApiResult<ProductVm>> GetProductById(int productId, string languageId);
+        Task<ApiResult<bool>> CategoryAssign(int id, CategoryAssignRequest request);
     }
 }

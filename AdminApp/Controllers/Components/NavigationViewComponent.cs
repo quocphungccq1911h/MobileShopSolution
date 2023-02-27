@@ -1,25 +1,22 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MobileShop.AdminApp.Models;
-using MobileShop.AdminApp.Services;
+using MobileShop.ApiIntergration.Interfaces;
 using MobileShop.Utilities.Constants;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace MobileShop.AdminApp.Controllers.Components
 {
     public class NavigationViewComponent : ViewComponent
     {
-        private readonly ILanguageAdminService _languageAdminService;
-        public NavigationViewComponent(ILanguageAdminService languageAdminService)
+        private readonly ILanguageApiClient _languageApiClient;
+        public NavigationViewComponent(ILanguageApiClient languageApiClient)
         {
-            _languageAdminService = languageAdminService;
+            _languageApiClient = languageApiClient;
         }
         public async Task<IViewComponentResult> InvokeAsync()
         {
-            var languages = await _languageAdminService.GetAll();
+            var languages = await _languageApiClient.GetAll();
             var navigationVm = new NavigationVM()
             {
                 CurrentLanguageId = HttpContext.Session.GetString(SystemConstans.AppSetting.DefaultLanguageId),

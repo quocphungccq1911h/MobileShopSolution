@@ -3,9 +3,9 @@ using MobileShop.ViewModels.System.Roles;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace MobileShop.AdminApp.Services
+namespace MobileShop.ApiIntergration.Interfaces
 {
-    public interface IRoleAdminService
+    public interface IRoleApiClient
     {
         Task<ApiResult<List<RoleVM>>> GetAllRole();
     }

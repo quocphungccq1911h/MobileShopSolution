@@ -18,7 +18,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MobileShop.Utilities", "Mob
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MobileShop.WebAPI", "MobileShop.WebAPI\MobileShop.WebAPI.csproj", "{903B8C73-8675-4081-B792-F78B572FDF2C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MobileShop.AdminApp", "AdminApp\MobileShop.AdminApp.csproj", "{194C494C-EEDF-45A3-A3C8-23CFD40C9B8C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MobileShop.AdminApp", "AdminApp\MobileShop.AdminApp.csproj", "{194C494C-EEDF-45A3-A3C8-23CFD40C9B8C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MobileShop.ApiIntergration", "MobileShop.ApiIntergration\MobileShop.ApiIntergration.csproj", "{961CB539-5D1D-4801-92F6-D8A31FCC2050}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -50,6 +52,10 @@ Global
 		{194C494C-EEDF-45A3-A3C8-23CFD40C9B8C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{194C494C-EEDF-45A3-A3C8-23CFD40C9B8C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{194C494C-EEDF-45A3-A3C8-23CFD40C9B8C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{961CB539-5D1D-4801-92F6-D8A31FCC2050}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{961CB539-5D1D-4801-92F6-D8A31FCC2050}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{961CB539-5D1D-4801-92F6-D8A31FCC2050}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{961CB539-5D1D-4801-92F6-D8A31FCC2050}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

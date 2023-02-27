@@ -21,6 +21,6 @@ namespace MobileShop.ViewModels.Catalog.Products
         public string LanguageId { set; get; }
         public bool? IsFeatured { get; set; }
         public string ThumbnailImage { get; set; }
-        public List<int> Categories { get; set; } = new List<int>();
+        public List<string> Categories { get; set; } = new List<string>();
     }
 }

@@ -2,11 +2,13 @@
 using MobileShop.ViewModels.Common;
 using System.Threading.Tasks;
 
-namespace MobileShop.AdminApp.Services
+namespace MobileShop.ApiIntergration.Interfaces
 {
-    public interface IProductAdminService
+    public interface IProductApiClient
     {
         Task<PagedResult<ProductVm>> GetPaging(GetManageProductPagingRequest request);
         Task<bool> CreateProduct(ProductCreateRequest request);
+        Task<ApiResult<bool>> AssignCategory(int id, CategoryAssignRequest request);
+        Task<ApiResult<ProductVm>> GetProductById(int id, string languageId);
     }
 }

@@ -1,22 +1,25 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
+using MobileShop.ApiIntergration.Interfaces;
 using MobileShop.Utilities.Constants;
 using MobileShop.ViewModels.Catalog.Products;
 using MobileShop.ViewModels.Common;
+using Newtonsoft.Json;
 using System;
 using System.IO;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using System.Text;
 using System.Threading.Tasks;
 
-namespace MobileShop.AdminApp.Services
+namespace MobileShop.ApiIntergration
 {
-    public class ProductAdminService : BaseAdminService, IProductAdminService
+    public class ProductApiClient : BaseApiClient, IProductApiClient
     {
         private readonly IHttpClientFactory _httpClientFactory;
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly IConfiguration _configuration;
-        public ProductAdminService(
+        public ProductApiClient(
             IHttpClientFactory httpClientFactory,
             IHttpContextAccessor httpContextAccessor,
             IConfiguration configuration)
@@ -27,6 +30,23 @@ namespace MobileShop.AdminApp.Services
             _httpContextAccessor = httpContextAccessor;
         }
 
+        public async Task<ApiResult<bool>> AssignCategory(int id, CategoryAssignRequest request)
+        {
+            var json = JsonConvert.SerializeObject(request);
+            var httpContent = new StringContent(json, Encoding.UTF8, "application/json");
+            var sessions = _httpContextAccessor.HttpContext.Session.GetString(SystemConstans.AppSetting.Token);
+            var client = _httpClientFactory.CreateClient();
+            client.BaseAddress = new Uri(_configuration[SystemConstans.AppSetting.BaseAddress]);
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", sessions);
+            var response = await client.PutAsync($"/api/product/{id}/categories", httpContent);
+            var body = await response.Content.ReadAsStringAsync();
+            if(response.IsSuccessStatusCode)
+            {
+                return JsonConvert.DeserializeObject<ApiSuccessResult<bool>>(body);
+            }
+            return JsonConvert.DeserializeObject<ApiSuccessResult<bool>>(body);
+        }
+
         public async Task<bool> CreateProduct(ProductCreateRequest request)
         {
             var sessions = _httpContextAccessor.HttpContext.Session.GetString(SystemConstans.AppSetting.Token);
@@ -35,7 +55,7 @@ namespace MobileShop.AdminApp.Services
             client.BaseAddress = new Uri(_configuration[SystemConstans.AppSetting.BaseAddress]);
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", sessions);
             var requestContent = new MultipartFormDataContent();
-            if(request.ThumbnailImage != null)
+            if (request.ThumbnailImage != null)
             {
                 byte[] data;
                 using (var br = new BinaryReader(request.ThumbnailImage.OpenReadStream()))
@@ -63,8 +83,23 @@ namespace MobileShop.AdminApp.Services
 
         public async Task<PagedResult<ProductVm>> GetPaging(GetManageProductPagingRequest request)
         {
-            var data = await GetAsync<PagedResult<ProductVm>>($"/api/Product/paging?Keyword={request.Keyword}&LanguageId={request.LanguageId}&PageIndex={request.PageIndex}&PageSize={request.PageSize}");
+            var data = await GetAsync<PagedResult<ProductVm>>($"/api/Product/paging?Keyword={request.Keyword}&LanguageId={request.LanguageId}&PageIndex={request.PageIndex}&PageSize={request.PageSize}&categoryId={request.CategoryId}");
             return data;
+        }
+
+        public async Task<ApiResult<ProductVm>> GetProductById(int id, string languageId)
+        {
+            var sessions = _httpContextAccessor.HttpContext.Session.GetString(SystemConstans.AppSetting.Token);
+            var client = _httpClientFactory.CreateClient();
+            client.BaseAddress = new Uri(_configuration[SystemConstans.AppSetting.BaseAddress]);
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", sessions);
+            var response = await client.GetAsync($"/api/Product/GetById?productId={id}&languageId={languageId}");
+            var body = await response.Content.ReadAsStringAsync();
+            if(response.IsSuccessStatusCode)
+            {
+                return JsonConvert.DeserializeObject<ApiSuccessResult<ProductVm>>(body);
+            }
+            return JsonConvert.DeserializeObject<ApiErrorResult<ProductVm>>(body);
         }
     }
 }

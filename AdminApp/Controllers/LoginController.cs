@@ -1,28 +1,28 @@
-﻿using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Authentication;
+﻿using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using MobileShop.ViewModels.System.Users;
-using System.Threading.Tasks;
-using System;
+using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Logging;
 using Microsoft.IdentityModel.Tokens;
+using MobileShop.ApiIntergration.Interfaces;
+using MobileShop.Utilities.Constants;
+using MobileShop.ViewModels.System.Users;
+using System;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
-using Microsoft.Extensions.Configuration;
-using MobileShop.AdminApp.Services;
-using MobileShop.Utilities.Constants;
+using System.Threading.Tasks;
 
 namespace MobileShop.AdminApp.Controllers
 {
     public class LoginController : Controller
     {
-        private readonly IUserAdminService _userAdminService;
+        private readonly IUserApiClient _userApiClient;
         private readonly IConfiguration _configuration;
-        public LoginController(IUserAdminService userAdminService, IConfiguration configuration)
+        public LoginController(IUserApiClient userApiClient, IConfiguration configuration)
         {
-            _userAdminService = userAdminService;
+            _userApiClient = userApiClient;
             _configuration = configuration;
         }
         public IActionResult Index()
@@ -42,7 +42,7 @@ namespace MobileShop.AdminApp.Controllers
             {
                 return View();
             }
-            var token = await _userAdminService.Authenticate(request);
+            var token = await _userApiClient.Authenticate(request);
             if(token.ResultObj == null)
             {
                 ModelState.AddModelError("", token.Message);

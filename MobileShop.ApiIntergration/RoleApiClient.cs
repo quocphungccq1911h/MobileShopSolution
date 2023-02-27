@@ -1,23 +1,23 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
+using MobileShop.ApiIntergration.Interfaces;
 using MobileShop.ViewModels.Common;
 using MobileShop.ViewModels.System.Roles;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
 
-namespace MobileShop.AdminApp.Services
+namespace MobileShop.ApiIntergration
 {
-    public class RoleAdminService : IRoleAdminService
+    public class RoleApiClient : IRoleApiClient
     {
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly IHttpClientFactory _httpClientFactory;
         private readonly IConfiguration _configuration;
-        public RoleAdminService(
+        public RoleApiClient(
             IHttpContextAccessor httpContextAccessor,
             IHttpClientFactory httpClientFactory,
             IConfiguration configuration
@@ -35,7 +35,7 @@ namespace MobileShop.AdminApp.Services
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", sessions);
             var response = await client.GetAsync($"/api/roles");
             var body = await response.Content.ReadAsStringAsync();
-            if(response.IsSuccessStatusCode)
+            if (response.IsSuccessStatusCode)
             {
                 List<RoleVM> myDeserializedObjList = (List<RoleVM>)JsonConvert.DeserializeObject(body, typeof(List<RoleVM>));
                 return new ApiSuccessResult<List<RoleVM>>(myDeserializedObjList);

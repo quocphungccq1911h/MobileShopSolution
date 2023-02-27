@@ -7,12 +7,10 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using MobileShop.AdminApp.Services;
+using MobileShop.ApiIntergration;
+using MobileShop.ApiIntergration.Interfaces;
 using MobileShop.ViewModels.System.Users;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace AdminApp
 {
@@ -44,11 +42,11 @@ namespace AdminApp
 
             services.AddFluentValidationAutoValidation().AddFluentValidationClientsideAdapters();
 
-            services.AddTransient<IUserAdminService, UserAdminService>();
-            services.AddTransient<IRoleAdminService, RoleAdminService>();
-            services.AddTransient<ILanguageAdminService, LanguageAdminService>();
-            services.AddTransient<IProductAdminService, ProductAdminService>();
-            services.AddTransient<ICategoryAdminService, CategoryAdminService>();
+            services.AddTransient<IUserApiClient, UserApiClient>();
+            services.AddTransient<IRoleApiClient, RoleApiClient>();
+            services.AddTransient<ILanguageApiClient, LanguageApiClient>();
+            services.AddTransient<IProductApiClient, ProductApiClient>();
+            services.AddTransient<ICategoryApiClient, CategoryApiClient>();
 
 
             services.AddTransient<IValidator<LoginRequest>, LoginRequestValidator>();

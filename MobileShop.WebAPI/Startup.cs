@@ -14,7 +14,6 @@ using MobileShop.Application.Catalog.Categories;
 using MobileShop.Application.Catalog.Product;
 using MobileShop.Application.Common;
 using MobileShop.Application.System.Languages;
-using MobileShop.Application.System.Product;
 using MobileShop.Application.System.Roles;
 using MobileShop.Application.System.Users;
 using MobileShop.Data;
@@ -45,7 +44,6 @@ namespace MobileShop.WebAPI
             // Declare DI
 
             services.AddTransient<IStorageService, FileStorageService>();
-            services.AddTransient<IProductService, ProductService>();
             services.AddTransient<IProductManageService, ProductManageService>();
             services.AddTransient<UserManager<AppUser>, UserManager<AppUser>>();
             services.AddTransient<SignInManager<AppUser>, SignInManager<AppUser>>();

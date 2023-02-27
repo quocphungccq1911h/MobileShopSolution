@@ -3,9 +3,9 @@ using MobileShop.ViewModels.System.Languages;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace MobileShop.AdminApp.Services
+namespace MobileShop.ApiIntergration.Interfaces
 {
-    public interface ILanguageAdminService
+    public interface ILanguageApiClient
     {
         Task<ApiResult<List<LanguageVM>>> GetAll();
     }

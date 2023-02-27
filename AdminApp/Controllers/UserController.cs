@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MobileShop.AdminApp.Controllers;
-using MobileShop.AdminApp.Services;
+using MobileShop.ApiIntergration.Interfaces;
 using MobileShop.ViewModels.Common;
 using MobileShop.ViewModels.System.Users;
 using System;
@@ -13,12 +13,12 @@ namespace AdminApp.Controllers
 {
     public class UserController : BaseController
     {
-        private readonly IUserAdminService _userAdminService;
-        private readonly IRoleAdminService _roleAdminService;
-        public UserController(IUserAdminService userAdminService, IRoleAdminService roleAdminService)
+        private readonly IUserApiClient _userApiClient;
+        private readonly IRoleApiClient _roleApiClient;
+        public UserController(IUserApiClient userApiClient, IRoleApiClient roleApiClient)
         {
-            _userAdminService = userAdminService;
-            _roleAdminService = roleAdminService;
+            _userApiClient = userApiClient;
+            _roleApiClient = roleApiClient;
         }
         public async Task<IActionResult> Index(string keyword, int pageIndex = 1, int pageSize = 5)
         {
@@ -29,7 +29,7 @@ namespace AdminApp.Controllers
                 PageIndex = pageIndex,
                 PageSize = pageSize
             };
-            var users = await _userAdminService.GetUserPaging(request);
+            var users = await _userApiClient.GetUserPaging(request);
             ViewBag.Keyword = keyword;
             if (TempData["result"] != null)
             {
@@ -53,7 +53,7 @@ namespace AdminApp.Controllers
             {
                 return View();
             }
-            var result = await _userAdminService.RegisterUser(request);
+            var result = await _userApiClient.RegisterUser(request);
             if (result.IsSuccessed)
             {
                 TempData["result"] = "Thêm mới người dùng thành công";
@@ -69,7 +69,7 @@ namespace AdminApp.Controllers
         [HttpGet]
         public async Task<IActionResult> Edit(Guid id)
         {
-            var result = await _userAdminService.GetUserById(id);
+            var result = await _userApiClient.GetUserById(id);
             if (result.IsSuccessed)
             {
                 var user = result.ResultObj;
@@ -92,7 +92,7 @@ namespace AdminApp.Controllers
             {
                 return View();
             }
-            var result = await _userAdminService.UpdateUser(request.Id, request);
+            var result = await _userApiClient.UpdateUser(request.Id, request);
             if (result.IsSuccessed)
             {
                 TempData["result"] = "Cập nhật người dùng thành công";
@@ -116,7 +116,7 @@ namespace AdminApp.Controllers
             {
                 return View();
             }
-            var result = await _userAdminService.DeleteUser(request.Id);
+            var result = await _userApiClient.DeleteUser(request.Id);
             if (result.IsSuccessed)
             {
                 TempData["result"] = "Xóa người dùng thành công";
@@ -145,7 +145,7 @@ namespace AdminApp.Controllers
             {
                 return BadRequest();
             }
-            var result = await _userAdminService.AssignRole(request.Id, request);
+            var result = await _userApiClient.AssignRole(request.Id, request);
             if(result.IsSuccessed)
             {
                 TempData["result"] = "Cập nhật quyền thành công";
@@ -157,8 +157,8 @@ namespace AdminApp.Controllers
         }
         private async Task<RoleAssignRequest> GetRoleAssignRequest(Guid id)
         {
-            var userObj = await _userAdminService.GetUserById(id);
-            var roleObj = await _roleAdminService.GetAllRole();
+            var userObj = await _userApiClient.GetUserById(id);
+            var roleObj = await _roleApiClient.GetAllRole();
             var roleAssignRequest = new RoleAssignRequest();
             foreach (var role in roleObj.ResultObj)
             {
