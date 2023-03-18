@@ -180,7 +180,7 @@ namespace MobileShop.Data.Migrations
                         new
                         {
                             Id = new Guid("8d04dce2-969a-435d-bba4-df3f325983dc"),
-                            ConcurrencyStamp = "c4c1ef73-c858-4a42-b976-9013c864ae76",
+                            ConcurrencyStamp = "59b4d52b-5c2f-4b2a-a647-25e440a24c44",
                             Description = "Administrator role",
                             Name = "admin",
                             NormalizedName = "admin"
@@ -257,7 +257,7 @@ namespace MobileShop.Data.Migrations
                         {
                             Id = new Guid("69bd714f-9576-45ba-b5b7-f00649be00de"),
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "749093bf-f635-400b-9b7d-ba86a9fe9973",
+                            ConcurrencyStamp = "2084a32c-9e48-40bf-bae0-a74f17d7039b",
                             Dob = new DateTime(1994, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "quocphungccq1911h@gmail.com",
                             EmailConfirmed = true,
@@ -266,11 +266,140 @@ namespace MobileShop.Data.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "quocphungccq1911h@gmail.com",
                             NormalizedUserName = "admin",
-                            PasswordHash = "AQAAAAEAACcQAAAAEFc4jTioxAJXbKJNV4s+b1CKAj3Roquq2xzFdSCkHk7429uqSWftNvYAKfA2JQ4AaA==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEPaQeXGf+Y8CSs2Ww3Lb0wYQ2t2c5zDBk9T9psx9yM8utMQxG3NINac+ixHgcuORHA==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "",
                             TwoFactorEnabled = false,
                             UserName = "admin"
+                        });
+                });
+
+            modelBuilder.Entity("MobileShop.Data.Entities.Brand", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:IdentityIncrement", 1)
+                        .HasAnnotation("SqlServer:IdentitySeed", 1)
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<bool>("IsShowHome")
+                        .HasColumnType("bit");
+
+                    b.Property<int?>("ParentId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("SortOrder")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Brands");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            IsShowHome = true,
+                            SortOrder = 1,
+                            Status = 1
+                        },
+                        new
+                        {
+                            Id = 2,
+                            IsShowHome = true,
+                            SortOrder = 2,
+                            Status = 1
+                        });
+                });
+
+            modelBuilder.Entity("MobileShop.Data.Entities.BrandTranslation", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:IdentityIncrement", 1)
+                        .HasAnnotation("SqlServer:IdentitySeed", 1)
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("BrandId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("LanguageId")
+                        .IsRequired()
+                        .HasColumnType("varchar(5)")
+                        .HasMaxLength(5)
+                        .IsUnicode(false);
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(200)")
+                        .HasMaxLength(200);
+
+                    b.Property<string>("SeoAlias")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(200)")
+                        .HasMaxLength(200);
+
+                    b.Property<string>("SeoDescription")
+                        .HasColumnType("nvarchar(500)")
+                        .HasMaxLength(500);
+
+                    b.Property<string>("SeoTitle")
+                        .HasColumnType("nvarchar(200)")
+                        .HasMaxLength(200);
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("BrandId");
+
+                    b.HasIndex("LanguageId");
+
+                    b.ToTable("BrandTranslations");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            BrandId = 1,
+                            LanguageId = "vi-VN",
+                            Name = "Samsung",
+                            SeoAlias = "samsung",
+                            SeoDescription = "Thương hiệu Samsung",
+                            SeoTitle = "Thương hiệu Samsung"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            BrandId = 1,
+                            LanguageId = "en-US",
+                            Name = "Samsung",
+                            SeoAlias = "samsung",
+                            SeoDescription = "Brand Samsung",
+                            SeoTitle = "Brand Samsung"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            BrandId = 2,
+                            LanguageId = "vi-VN",
+                            Name = "Apple",
+                            SeoAlias = "apple",
+                            SeoDescription = "Thương hiệu Apple",
+                            SeoTitle = "Thương hiệu Apple"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            BrandId = 2,
+                            LanguageId = "en-US",
+                            Name = "Apple",
+                            SeoAlias = "apple",
+                            SeoDescription = "Brand Apple",
+                            SeoTitle = "Brand Apple"
                         });
                 });
 
@@ -326,9 +455,7 @@ namespace MobileShop.Data.Migrations
                         .HasColumnType("int");
 
                     b.Property<int>("Status")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasDefaultValue(1);
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -508,6 +635,46 @@ namespace MobileShop.Data.Migrations
                         });
                 });
 
+            modelBuilder.Entity("MobileShop.Data.Entities.Menu", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Alias")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("DisplayOrder")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("IsShowHome")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("ParentId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Menus");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Alias = "thuong-hieu",
+                            IsShowHome = true,
+                            Name = "Thương hiệu",
+                            Status = 1
+                        });
+                });
+
             modelBuilder.Entity("MobileShop.Data.Entities.Order", b =>
                 {
                     b.Property<int>("Id")
@@ -611,7 +778,7 @@ namespace MobileShop.Data.Migrations
                         new
                         {
                             Id = 1,
-                            CreateDate = new DateTime(2022, 12, 17, 15, 8, 33, 832, DateTimeKind.Local).AddTicks(1922),
+                            CreateDate = new DateTime(2023, 3, 18, 17, 51, 3, 115, DateTimeKind.Local).AddTicks(6663),
                             OriginalPrice = 15000000m,
                             Price = 20000000m,
                             Stock = 0,
@@ -739,6 +906,7 @@ namespace MobileShop.Data.Migrations
                             Name = "Máy tính bảng Huawei M3",
                             ProductId = 1,
                             SeoAlias = "may-tinh-bang-huawei-m3",
+                            SeoDescription = "",
                             SeoTitle = "Máy tính bảng Tablet Huawei M3"
                         },
                         new
@@ -750,7 +918,35 @@ namespace MobileShop.Data.Migrations
                             Name = "Tablet Huawei M3",
                             ProductId = 1,
                             SeoAlias = "tablet-huawei-m3",
+                            SeoDescription = "",
                             SeoTitle = "Tablet Huawei M3"
+                        });
+                });
+
+            modelBuilder.Entity("MobileShop.Data.Entities.Product_Brand_Mapping", b =>
+                {
+                    b.Property<int>("ProductId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("BrandId")
+                        .HasColumnType("int");
+
+                    b.HasKey("ProductId", "BrandId");
+
+                    b.HasIndex("BrandId");
+
+                    b.ToTable("Product_Brand_Mappings");
+
+                    b.HasData(
+                        new
+                        {
+                            ProductId = 1,
+                            BrandId = 1
+                        },
+                        new
+                        {
+                            ProductId = 2,
+                            BrandId = 2
                         });
                 });
 
@@ -837,6 +1033,21 @@ namespace MobileShop.Data.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("Transactions");
+                });
+
+            modelBuilder.Entity("MobileShop.Data.Entities.BrandTranslation", b =>
+                {
+                    b.HasOne("MobileShop.Data.Entities.Brand", "Brand")
+                        .WithMany("BrandTranslations")
+                        .HasForeignKey("BrandId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("MobileShop.Data.Entities.Language", "Language")
+                        .WithMany("BrandTranslations")
+                        .HasForeignKey("LanguageId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("MobileShop.Data.Entities.Cart", b =>
@@ -927,6 +1138,21 @@ namespace MobileShop.Data.Migrations
 
                     b.HasOne("MobileShop.Data.Entities.Product", "Product")
                         .WithMany("ProductTranslations")
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("MobileShop.Data.Entities.Product_Brand_Mapping", b =>
+                {
+                    b.HasOne("MobileShop.Data.Entities.Brand", "Brand")
+                        .WithMany("Product_Brand_Mappings")
+                        .HasForeignKey("BrandId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("MobileShop.Data.Entities.Product", "Product")
+                        .WithMany("Product_Brand_Mappings")
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();

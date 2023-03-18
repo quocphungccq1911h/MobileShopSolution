@@ -4,7 +4,7 @@ using MobileShop.Data.Entities;
 
 namespace MobileShop.Data.Configurations
 {
-    class ProductInCategoryConfiguration : IEntityTypeConfiguration<ProductInCategory>
+    public class ProductInCategoryConfiguration : IEntityTypeConfiguration<ProductInCategory>
     {
         public void Configure(EntityTypeBuilder<ProductInCategory> builder)
         {

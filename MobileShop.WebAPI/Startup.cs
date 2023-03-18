@@ -10,7 +10,9 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using MobileShop.Application.Catalog.Brands;
 using MobileShop.Application.Catalog.Categories;
+using MobileShop.Application.Catalog.Menus;
 using MobileShop.Application.Catalog.Product;
 using MobileShop.Application.Common;
 using MobileShop.Application.System.Languages;
@@ -48,10 +50,12 @@ namespace MobileShop.WebAPI
             services.AddTransient<UserManager<AppUser>, UserManager<AppUser>>();
             services.AddTransient<SignInManager<AppUser>, SignInManager<AppUser>>();
             services.AddTransient<RoleManager<AppRole>, RoleManager<AppRole>>();
-            services.AddTransient<IUserService,UserService>();
+            services.AddTransient<IUserService, UserService>();
             services.AddTransient<IRoleService, RoleService>();
             services.AddTransient<ILanguageService, LanguageService>();
             services.AddTransient<ICategoryService, CategoryService>();
+            services.AddTransient<IBrandService, BrandService>();
+            services.AddTransient<IMenuService, MenuService>();
 
 
             services.AddTransient<IValidator<LoginRequest>, LoginRequestValidator>();
@@ -119,6 +123,7 @@ namespace MobileShop.WebAPI
                     IssuerSigningKey = new SymmetricSecurityKey(signingKeyBytes)
                 };
             });
+            services.AddCors();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -132,6 +137,9 @@ namespace MobileShop.WebAPI
             app.UseHttpsRedirection();
 
             app.UseStaticFiles();
+            app.UseCors(
+                   options => options.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader()
+               );
 
             app.UseAuthentication();
 

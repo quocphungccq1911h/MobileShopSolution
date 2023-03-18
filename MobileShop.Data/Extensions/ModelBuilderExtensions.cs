@@ -19,6 +19,35 @@ namespace MobileShop.Data.Extensions
                 new Language() { Id = "vi-VN", Name = "Tiếng Việt", IsDefault = true },
                 new Language() { Id = "en-US", Name = "English", IsDefault = false }
                 );
+
+            modelBuilder.Entity<Menu>().HasData(
+                new Menu() { Id = 1, IsShowHome = true, Alias = "thuong-hieu", Name = "Thương hiệu", ParentId = null, Status = Status.Active }
+                );
+
+            modelBuilder.Entity<Brand>().HasData(
+                new Brand()
+                {
+                    Id = 1,
+                    IsShowHome = true,
+                    ParentId = null,
+                    SortOrder = 1,
+                    Status = Status.Active
+                },
+                new Brand()
+                {
+                    Id = 2,
+                    IsShowHome = true,
+                    ParentId = null,
+                    SortOrder = 2,
+                    Status = Status.Active
+                });
+            modelBuilder.Entity<BrandTranslation>().HasData(
+                    new BrandTranslation() { Id = 1, BrandId = 1, Name = "Samsung", LanguageId = "vi-VN", SeoAlias = "samsung", SeoDescription = "Thương hiệu Samsung", SeoTitle = "Thương hiệu Samsung" },
+                    new BrandTranslation() { Id = 2, BrandId = 1, Name = "Samsung", LanguageId = "en-US", SeoAlias = "samsung", SeoDescription = "Brand Samsung", SeoTitle = "Brand Samsung" },
+                    new BrandTranslation() { Id = 3, BrandId = 2, Name = "Apple", LanguageId = "vi-VN", SeoAlias = "apple", SeoDescription = "Thương hiệu Apple", SeoTitle = "Thương hiệu Apple" },
+                    new BrandTranslation() { Id = 4, BrandId = 2, Name = "Apple", LanguageId = "en-US", SeoAlias = "apple", SeoDescription = "Brand Apple", SeoTitle = "Brand Apple" }
+                );
+
             modelBuilder.Entity<Category>().HasData(
                 new Category()
                 {
@@ -77,6 +106,10 @@ namespace MobileShop.Data.Extensions
                 });
             modelBuilder.Entity<ProductInCategory>().HasData(
                 new ProductInCategory() { ProductId = 1, CategoryId = 1 }
+                );
+            modelBuilder.Entity<Product_Brand_Mapping>().HasData(
+                new Product_Brand_Mapping() { ProductId = 1, BrandId = 1 },
+                new Product_Brand_Mapping() { ProductId = 2, BrandId = 2 }
                 );
             // any guid
             var roleId = new Guid("8D04DCE2-969A-435D-BBA4-DF3F325983DC");

@@ -32,6 +32,10 @@ namespace MobileShop.Data
             modelBuilder.ApplyConfiguration(new AppUserConfiguration());
             modelBuilder.ApplyConfiguration(new AppRoleConfiguration());
             modelBuilder.ApplyConfiguration(new ProductImageConfiguration());
+            modelBuilder.ApplyConfiguration(new BrandConfiguration());
+            modelBuilder.ApplyConfiguration(new Product_Brand_MappingConfiguration());
+            modelBuilder.ApplyConfiguration(new BrandTranslationConfiguration());
+            modelBuilder.ApplyConfiguration(new MenuConfiguration());
 
             modelBuilder.Entity<IdentityUserClaim<Guid>>().ToTable("AppUserClaim");
             modelBuilder.Entity<IdentityUserRole<Guid>>().ToTable("AppUserRoles").HasKey(x => new { x.UserId, x.RoleId });
@@ -57,5 +61,9 @@ namespace MobileShop.Data
         public DbSet<Promotion> Promotions { set; get; }
         public DbSet<Transaction> Transactions { set; get; }
         public DbSet<ProductImage> ProductImages { get; set; }
+        public DbSet<Brand> Brands { set; get; }
+        public DbSet<BrandTranslation> BrandTranslations { set; get; }
+        public DbSet<Product_Brand_Mapping> Product_Brand_Mappings { set; get; }
+        public DbSet<Menu> Menus { get; set; } 
     }
 }
