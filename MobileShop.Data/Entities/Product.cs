@@ -10,6 +10,7 @@ namespace MobileShop.Data.Entities
         public decimal OriginalPrice { set; get; }
         public int Stock { set; get; }
         public int ViewCount { set; get; }
+        public bool? IsFeature { set; get; }
         public DateTime CreateDate { set; get; }
         public List<ProductInCategory> ProductInCategories { get; set; }
         public List<OrderDetail> OrderDetails { get; set; }

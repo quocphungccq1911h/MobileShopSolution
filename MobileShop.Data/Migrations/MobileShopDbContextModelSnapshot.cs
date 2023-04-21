@@ -180,7 +180,7 @@ namespace MobileShop.Data.Migrations
                         new
                         {
                             Id = new Guid("8d04dce2-969a-435d-bba4-df3f325983dc"),
-                            ConcurrencyStamp = "59b4d52b-5c2f-4b2a-a647-25e440a24c44",
+                            ConcurrencyStamp = "5dcb303e-c300-4c82-b7c6-d67a557115f1",
                             Description = "Administrator role",
                             Name = "admin",
                             NormalizedName = "admin"
@@ -257,7 +257,7 @@ namespace MobileShop.Data.Migrations
                         {
                             Id = new Guid("69bd714f-9576-45ba-b5b7-f00649be00de"),
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "2084a32c-9e48-40bf-bae0-a74f17d7039b",
+                            ConcurrencyStamp = "a31488b5-6fd2-4620-8265-425c4ba8a143",
                             Dob = new DateTime(1994, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "quocphungccq1911h@gmail.com",
                             EmailConfirmed = true,
@@ -266,7 +266,7 @@ namespace MobileShop.Data.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "quocphungccq1911h@gmail.com",
                             NormalizedUserName = "admin",
-                            PasswordHash = "AQAAAAEAACcQAAAAEPaQeXGf+Y8CSs2Ww3Lb0wYQ2t2c5zDBk9T9psx9yM8utMQxG3NINac+ixHgcuORHA==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEFB/bXnCBCCCVe/d8grW8WtD7cnIn4saNCR2IBYEpu3mzHbFkIfBlPoCU8yOdtIJnw==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "",
                             TwoFactorEnabled = false,
@@ -754,6 +754,11 @@ namespace MobileShop.Data.Migrations
                     b.Property<DateTime>("CreateDate")
                         .HasColumnType("datetime2");
 
+                    b.Property<bool?>("IsFeature")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bit")
+                        .HasDefaultValue(false);
+
                     b.Property<decimal>("OriginalPrice")
                         .HasColumnType("decimal(18,2)");
 
@@ -778,7 +783,7 @@ namespace MobileShop.Data.Migrations
                         new
                         {
                             Id = 1,
-                            CreateDate = new DateTime(2023, 3, 18, 17, 51, 3, 115, DateTimeKind.Local).AddTicks(6663),
+                            CreateDate = new DateTime(2023, 3, 19, 10, 12, 33, 700, DateTimeKind.Local).AddTicks(915),
                             OriginalPrice = 15000000m,
                             Price = 20000000m,
                             Stock = 0,

@@ -22,5 +22,6 @@ namespace MobileShop.Application.Catalog.Product
         Task<List<ProductImageVM>> GetListImage(int productId);
         Task<ApiResult<ProductVm>> GetProductById(int productId, string languageId);
         Task<ApiResult<bool>> CategoryAssign(int id, CategoryAssignRequest request);
+        Task<ApiResult<List<ProductVm>>> GetListProductFeature(string languageId);
     }
 }

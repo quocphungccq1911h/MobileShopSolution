@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using MobileShop.Application.Catalog.Product;
 using MobileShop.ViewModels.Catalog.Products;
 using System.Threading.Tasks;
@@ -54,11 +53,28 @@ namespace MobileShop.WebAPI.Controllers
                 return BadRequest(ModelState);
             }
             var result = await _productManageService.CategoryAssign(id, request);
-            if(result.IsSuccessed)
+            if (result.IsSuccessed)
             {
                 return Ok(result);
             }
             return BadRequest(result);
         }
+        [HttpGet("getListProductFeature")]
+        public async Task<IActionResult> GetListProductFeature(string languageId)
+        {
+            var data = await _productManageService.GetListProductFeature(languageId);
+            if (!data.IsSuccessed)
+            {
+                return BadRequest(data);
+            }
+            return Ok(data);
+        }
+        [HttpPut("updateViewCount")]
+        public async Task<IActionResult> UpdateViewCount(int productId)
+        {
+            await _productManageService.AddViewCount(productId);
+            return Ok();
+        }
     }
 }
+

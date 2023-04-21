@@ -1,17 +1,18 @@
-﻿using MobileShop.Data;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
+using MobileShop.Application.Common;
+using MobileShop.Data;
+using MobileShop.Data.Entities;
 using MobileShop.Utilities.Exceptions;
 using MobileShop.ViewModels.Catalog.Products;
 using MobileShop.ViewModels.Common;
+using MobileShop.ViewModels.System.Languages;
 using System;
 using System.Collections.Generic;
-using System.Threading.Tasks;
-using System.Linq;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore.Http;
-using System.Net.Http.Headers;
 using System.IO;
-using MobileShop.Application.Common;
-using MobileShop.Data.Entities;
+using System.Linq;
+using System.Net.Http.Headers;
+using System.Threading.Tasks;
 
 namespace MobileShop.Application.Catalog.Product
 {
@@ -73,9 +74,10 @@ namespace MobileShop.Application.Catalog.Product
                 Stock = request.Stock,
                 ViewCount = 0,
                 CreateDate = DateTime.Now,
-                ProductTranslations = new List<Data.Entities.ProductTranslation>
+                IsFeature = request.IsFeatured,
+                ProductTranslations = new List<ProductTranslation>
                 {
-                    new Data.Entities.ProductTranslation
+                    new ProductTranslation
                     {
                         Name = request.Name,
                         Description = request.Description,
@@ -90,9 +92,9 @@ namespace MobileShop.Application.Catalog.Product
             // Save Image
             if (request.ThumbnailImage != null)
             {
-                product.ProductImages = new List<Data.Entities.ProductImage>()
+                product.ProductImages = new List<ProductImage>()
                 {
-                    new Data.Entities.ProductImage()
+                    new ProductImage()
                     {
                         Caption = "Thumbnail Image",
                         DateCreated = DateTime.Now,
@@ -124,6 +126,41 @@ namespace MobileShop.Application.Catalog.Product
         public Task<List<ProductVm>> GetAll()
         {
             throw new NotImplementedException();
+        }
+
+        public async Task<ApiResult<List<ProductVm>>> GetListProductFeature(string languageId)
+        {
+            var query = from p in _context.Products
+                        join pt in _context.ProductTranslations on p.Id equals pt.ProductId
+                        join pic in _context.ProductInCategories on p.Id equals pic.ProductId into ppic
+                        from pic in ppic.DefaultIfEmpty()
+                        join c in _context.Categories on pic.CategoryId equals c.Id into picc
+                        from c in picc.DefaultIfEmpty()
+                        where pt.LanguageId == languageId && p.IsFeature == true
+                        select new { p, pt, pic };
+
+            var data = await query.Select(x => new ProductVm()
+            {
+                Id = x.p.Id,
+                Price = x.p.Price,
+                OriginalPrice = x.p.OriginalPrice,
+                Stock = x.p.Stock,
+                ViewCount = x.p.ViewCount,
+                DateCreated = x.p.CreateDate,
+                Name = x.pt.Name,
+                Description = x.pt.Description,
+                Details = x.pt.Details,
+                SeoDescription = x.pt.SeoDescription,
+                SeoTitle = x.pt.SeoTitle,
+                SeoAlias = x.pt.SeoAlias,
+                LanguageId = x.pt.LanguageId,
+                IsFeatured = x.p.IsFeature
+            }).ToListAsync();
+            if (data.Count > 0)
+            {
+                return new ApiSuccessResult<List<ProductVm>>(data);
+            }
+            return new ApiErrorResult<List<ProductVm>>("Không có sản phẩm");
         }
 
         public async Task<PagedResult<ProductVm>> GetAllPaging(GetManageProductPagingRequest request)
@@ -165,6 +202,7 @@ namespace MobileShop.Application.Catalog.Product
                     SeoTitle = x.pt.SeoTitle,
                     SeoAlias = x.pt.SeoAlias,
                     LanguageId = x.pt.LanguageId,
+                    IsFeatured = x.p.IsFeature
                 }).ToListAsync();
 
             // Select and Projection
