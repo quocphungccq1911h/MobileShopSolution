@@ -10,9 +10,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
-using MobileShop.Application.Catalog.Brands;
 using MobileShop.Application.Catalog.Categories;
-using MobileShop.Application.Catalog.Menus;
 using MobileShop.Application.Catalog.Product;
 using MobileShop.Application.Common;
 using MobileShop.Application.System.Languages;
@@ -54,8 +52,8 @@ namespace MobileShop.WebAPI
             services.AddTransient<IRoleService, RoleService>();
             services.AddTransient<ILanguageService, LanguageService>();
             services.AddTransient<ICategoryService, CategoryService>();
-            services.AddTransient<IBrandService, BrandService>();
-            services.AddTransient<IMenuService, MenuService>();
+            //services.AddTransient<IBrandService, BrandService>();
+            //services.AddTransient<IMenuService, MenuService>();
 
 
             services.AddTransient<IValidator<LoginRequest>, LoginRequestValidator>();
