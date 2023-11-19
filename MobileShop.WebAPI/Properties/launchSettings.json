@@ -6,6 +6,10 @@
     "iisExpress": {
       "applicationUrl": "http://localhost:8989",
       "sslPort": 44312
+    },
+    "iis": {
+      "applicationUrl": "http://webapi.mobileshop.com",
+      "sslPort": 0
     }
   },
   "profiles": {
@@ -22,6 +26,14 @@
       "launchBrowser": true,
       "launchUrl": "swagger",
       "applicationUrl": "http://localhost:5001",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      }
+    },
+    "IIS-Local": {
+      "commandName": "IIS",
+      "launchUrl": "swagger",
+      "launchBrowser": false,
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
