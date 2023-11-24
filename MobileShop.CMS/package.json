@@ -1,13 +1,13 @@
 {
   "name": "mobileshop-cms",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "scripts": {
     "dev": "vue-cli-service serve",
-    "build": "vite build",
-    "preview": "vite preview --port 4173"
+    "build": "vue-cli-service build"
   },
   "dependencies": {
     "vue-router": "^4.2.4",
+    "@coreui/vue": "^4.10.0",
     "vue": "^3.2.38"
   },
   "devDependencies": {
