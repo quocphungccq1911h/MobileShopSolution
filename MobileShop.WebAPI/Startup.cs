@@ -14,6 +14,7 @@ using MobileShop.Application.Catalog.Categories;
 using MobileShop.Application.Catalog.Product;
 using MobileShop.Application.Common;
 using MobileShop.Application.System.Languages;
+using MobileShop.Application.System.NavigationMenu;
 using MobileShop.Application.System.Roles;
 using MobileShop.Application.System.Users;
 using MobileShop.Data;
@@ -54,6 +55,8 @@ namespace MobileShop.WebAPI
             services.AddTransient<ICategoryService, CategoryService>();
             //services.AddTransient<IBrandService, BrandService>();
             //services.AddTransient<IMenuService, MenuService>();
+
+            services.AddTransient<INavigationMenuService, NavigationMenuService>();
 
 
             services.AddTransient<IValidator<LoginRequest>, LoginRequestValidator>();

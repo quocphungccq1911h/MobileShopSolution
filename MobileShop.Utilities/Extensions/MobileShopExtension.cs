@@ -1,24 +1,44 @@
-﻿using System.Text.RegularExpressions;
+﻿using System.Globalization;
+using System.Text;
+using System.Text.RegularExpressions;
 
 namespace MobileShop.Utilities.Extensions
 {
     public static class MobileShopExtension
     {
+        #region Methods
         public static string GenSlugHelper(string input)
         {
-            // Convert to lowercase
-            string slug = input.ToLowerInvariant();
+            // Normalize the string and remove diacritics
+            string normalized = RemoveDiacritics(input.ToLower());
 
-            // Remove invalid characters
-            slug = Regex.Replace(slug, @"[^a-z0-9\s-]", "");
+            // Replace non-alphanumeric characters with a dash
+            string slug = Regex.Replace(normalized, @"[^a-z0-9]+", "-");
 
-            // Replace spaces with hyphens
-            slug = slug.Replace(" ", "-");
-
-            // Collapse consecutive hyphens into a single hyphen
-            slug = Regex.Replace(slug, @"-+", "-");
+            // Remove leading and trailing dashes
+            slug = slug.Trim('-');
 
             return slug;
         }
+        #endregion
+
+        #region Helpers
+        private static string RemoveDiacritics(string text)
+        {
+            string normalizedString = text.Normalize(NormalizationForm.FormD);
+            StringBuilder stringBuilder = new StringBuilder();
+
+            foreach (char c in normalizedString)
+            {
+                UnicodeCategory category = CharUnicodeInfo.GetUnicodeCategory(c);
+                if (category != UnicodeCategory.NonSpacingMark)
+                {
+                    stringBuilder.Append(c);
+                }
+            }
+
+            return stringBuilder.ToString();
+        }
+        #endregion
     }
 }
