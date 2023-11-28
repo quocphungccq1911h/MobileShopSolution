@@ -111,6 +111,30 @@ namespace MobileShop.Data.Extensions
                 RoleId = roleId,
                 UserId = adminId
             });
+
+            #region NavigateMenu
+            modelBuilder.Entity<NavigationMenu>().HasData(
+                new NavigationMenu
+            {
+                Id = 1,
+                Name = "Dashboard",
+                Icon = ""
+            },
+            new NavigationMenu
+            {
+                Id = 2,
+                Name = "Sản phẩm",
+                Icon = "",
+            },
+            new NavigationMenu
+            {
+                Id = 3,
+                Name = "Thêm sản phẩm",
+                Icon = "",
+            }
+            );
+
+            #endregion
         }
     }
 }

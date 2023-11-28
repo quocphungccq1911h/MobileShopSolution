@@ -32,6 +32,7 @@ namespace MobileShop.Data
             modelBuilder.ApplyConfiguration(new AppUserConfiguration());
             modelBuilder.ApplyConfiguration(new AppRoleConfiguration());
             modelBuilder.ApplyConfiguration(new ProductImageConfiguration());
+            modelBuilder.ApplyConfiguration(new NavigationMenuConfiguration());
             //modelBuilder.ApplyConfiguration(new BrandConfiguration());
             //modelBuilder.ApplyConfiguration(new Product_Brand_MappingConfiguration());
             //modelBuilder.ApplyConfiguration(new BrandTranslationConfiguration());
@@ -61,6 +62,7 @@ namespace MobileShop.Data
         public DbSet<Promotion> Promotions { set; get; }
         public DbSet<Transaction> Transactions { set; get; }
         public DbSet<ProductImage> ProductImages { get; set; }
+        public DbSet<NavigationMenu> NavigationMenus { set; get; }
         //public DbSet<Brand> Brands { set; get; }
         //public DbSet<BrandTranslation> BrandTranslations { set; get; }
         //public DbSet<Product_Brand_Mapping> Product_Brand_Mappings { set; get; }
