@@ -2,7 +2,7 @@
   "name": "mobileshop-cms",
   "version": "1.0.0",
   "scripts": {
-    "dev": "vue-cli-service serve",
+    "serve": "vue-cli-service serve",
     "build": "vue-cli-service build"
   },
   "dependencies": {
