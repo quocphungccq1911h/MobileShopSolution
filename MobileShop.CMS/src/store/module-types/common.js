@@ -1,3 +1,3 @@
 export const COMMON_MODULE = "COMMON_MODULE";
 
-export const GET_ALL_NAV = "GET_ALL_NAV";
+export const TOOGLE_SIDE_BAR = "TOOGLE_SIDE_BAR";
