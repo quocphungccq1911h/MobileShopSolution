@@ -64,7 +64,7 @@ export default {
     methods: {
         ...mapMutations(COMMON_MODULE, [TOOGLE_SIDE_BAR]),
         toggleSidebar() {
-            this.TOOGLE_SIDE_BAR({});
+            this.TOOGLE_SIDE_BAR();
         }
     }
 }
