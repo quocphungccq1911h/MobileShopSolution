@@ -1,7 +1,7 @@
 <template>
     <CHeader position="sticky" class="mb-4">
         <CContainer fluid>
-            <CHeaderToggler class="ps-1" @click="$store.commit('toggleSidebar')">
+            <CHeaderToggler class="ps-1" @click="toggleSidebar">
                 <CIcon icon="cil-menu" size="lg" />
             </CHeaderToggler>
             <CHeaderBrand class="mx-auto d-lg-none" to="/">
@@ -47,16 +47,25 @@
 import { logo } from "@/assets/brand/logo";
 import AppBreadcrumb from './AppBreadcrumb.vue';
 import AppHeaderDropdownAccnt from "./AppHeaderDropdownAccnt.vue";
+import { TOOGLE_SIDE_BAR, COMMON_MODULE } from '../store/module-types/common';
+import { mapMutations } from "vuex";
 export default {
     name: 'AppHeader',
     components: {
         AppHeaderDropdownAccnt,
         AppBreadcrumb
     },
+    
     setup() {
         return {
             logo
         };
     },
+    methods: {
+        ...mapMutations(COMMON_MODULE, [TOOGLE_SIDE_BAR]),
+        toggleSidebar() {
+            this.TOOGLE_SIDE_BAR();
+        }
+    }
 }
 </script>

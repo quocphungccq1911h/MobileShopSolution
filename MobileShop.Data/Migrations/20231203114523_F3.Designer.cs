@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MobileShop.Data;
 
@@ -11,9 +12,10 @@ using MobileShop.Data;
 namespace MobileShop.Data.Migrations
 {
     [DbContext(typeof(MobileShopDbContext))]
-    partial class MobileShopDbContextModelSnapshot : ModelSnapshot
+    [Migration("20231203114523_F3")]
+    partial class F3
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -185,7 +187,7 @@ namespace MobileShop.Data.Migrations
                         new
                         {
                             Id = new Guid("8d04dce2-969a-435d-bba4-df3f325983dc"),
-                            ConcurrencyStamp = "3407f00a-e64a-4e0e-898e-ceec0f8bc514",
+                            ConcurrencyStamp = "b0f39ff3-f588-4663-8dcf-a927af72b005",
                             Description = "Administrator role",
                             Name = "admin",
                             NormalizedName = "admin"
@@ -262,7 +264,7 @@ namespace MobileShop.Data.Migrations
                         {
                             Id = new Guid("69bd714f-9576-45ba-b5b7-f00649be00de"),
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "5c84d77a-e21d-41c7-9276-a1096851cb66",
+                            ConcurrencyStamp = "4de08f4a-d69c-4147-a1aa-b415427f3fb9",
                             Dob = new DateTime(1994, 6, 11, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "quocphungccq1911h@gmail.com",
                             EmailConfirmed = true,
@@ -271,7 +273,7 @@ namespace MobileShop.Data.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "quocphungccq1911h@gmail.com",
                             NormalizedUserName = "admin",
-                            PasswordHash = "AQAAAAEAACcQAAAAEMbCAEoHSSPe1HaUZNvpWXZE/Kr2N8oRv72uRUeuXGNJ00fofRvpSOZpJhkg5p29xA==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEOcNoIK2jLF0OUx5dHprudaL16EjQgzYw5+/zIE2EXkyIp+gUOpM3MeDlPXPp2X1SQ==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "",
                             TwoFactorEnabled = false,
@@ -659,7 +661,7 @@ namespace MobileShop.Data.Migrations
                         new
                         {
                             Id = 1,
-                            CreateDate = new DateTime(2024, 1, 24, 19, 24, 46, 806, DateTimeKind.Local).AddTicks(2967),
+                            CreateDate = new DateTime(2023, 12, 3, 18, 45, 23, 140, DateTimeKind.Local).AddTicks(4733),
                             OriginalPrice = 15000000m,
                             Price = 20000000m,
                             Stock = 0,

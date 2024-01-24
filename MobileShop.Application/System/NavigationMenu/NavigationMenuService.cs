@@ -66,6 +66,7 @@ namespace MobileShop.Application.System.NavigationMenu
             }
             var res = data.Where(x => x.ParentId == parentId).Select(c => new NavigationMenuVM
             {
+                Id = c.Id,
                 Icon = c.Icon,
                 ParentId = c.ParentId,
                 Alias = c.Alias,
