@@ -44,7 +44,7 @@ jobs:
     - name: dotnet install ef
       run: dotnet tool install -g dotnet-ef
     - name: dotnet bundle migration
-      run: dotnet ef migrations bundle --runtime win-x64 -o ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}/myapp/migrate
+      run: dotnet ef migrations bundle -p ${{ env.WORKING_DIRECTORY }}/${{ env.WORKING_DIRECTORY }}.csproj --runtime win-x64 -o ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}/myapp/migrate
     - name: Install Swashbuckle CLI .NET Global Tool
       run: dotnet tool install --global Swashbuckle.AspNetCore.Cli --version ${{ env.SWASHBUCLE_ASPNET_CORE_CLI_PACKAGE_VERSION }}
       working-directory: ${{ env.WORKING_DIRECTORY }}
